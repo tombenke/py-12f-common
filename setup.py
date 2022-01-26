@@ -24,6 +24,7 @@ REQUIRED = [
 ]
 
 DEV_REQUIREMENTS = [
+    "build",
     "coverage",
     "coverage-badge",
     "black",
