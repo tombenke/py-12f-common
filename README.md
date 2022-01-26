@@ -5,7 +5,8 @@
 
 ## About
 
-This repository holds those infrastructure-level modules, that every application requires that follows the core 12-factor principles.
+This repository holds those infrastructure-level modules,
+that every application requires that follows the core 12-factor principles.
 
 ## Install
 
