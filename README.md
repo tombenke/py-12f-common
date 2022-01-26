@@ -1,6 +1,6 @@
 # py-12f-common
 
-[![Quality Check Status](https://github.com/lhsystems/py-12f-common/workflows/Quality%20Check/badge.svg)](https://github.com/lhsystems/py-12f-common)
+[![Quality Check Status](https://github.com/tombenke/py-12f-common/workflows/Quality%20Check/badge.svg)](https://github.com/tombenke/py-12f-common)
 ![Coverage](./coverage.svg)
 
 ## About
