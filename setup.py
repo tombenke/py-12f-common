@@ -1,5 +1,6 @@
 from setuptools import find_packages, setup
 import pathlib
+import os
 
 # Package metadata
 # ----------------
