@@ -1,0 +1,99 @@
+# https://taskfile.dev
+
+version: 3
+
+vars:
+  VERSION:
+    sh: git describe --tags --always --match v* ${GITHUB_REF}
+  GIT_HOOKS_DIR:
+    sh: sh -c 'echo "$(pwd)/.git/hooks"'
+
+env:
+
+tasks:
+  default:
+    desc: Executes all the tests then build the binary.
+    cmds:
+      - task: test
+      - task: docs
+
+  echo:
+    cmds:
+      - echo {{.GIT_HOOKS_DIR}}
+
+  format:
+    desc: Autoformat the source files
+    cmds:
+      - black .
+
+  test:
+    desc: Run all the tests.
+    cmds:
+      - task: format
+      - python -m unittest discover ./common/config/tests/
+
+  test-verbose:
+    desc: Run all the go tests.
+    cmds:
+      - task: format
+      - python -m unittest discover ./common/config/tests/ -v
+
+  coverage:
+    desc: Test coverage
+    cmds:
+      - coverage run -m unittest discover ./common/config/tests/ -v
+      - coverage html
+      - coverage report
+      - coverage-badge -f -o coverage.svg
+
+  lint:
+    desc: Run python linter
+    cmds:
+      - task: format
+      - pylint common/app/
+      - pylint common/config/
+      - pylint common/logger/
+
+  pre-commit:
+    desc: Runs the QA tasks from a git pre-commit hook
+    cmds:
+      - task: lint
+      - task: coverage
+
+  install-git-hooks:
+    desc: Install git hooks
+    cmds:
+      - echo -e "#!/bin/bash\ntask pre-commit" > ./.git/hooks/pre-commit
+      - chmod ug+x {{.GIT_HOOKS_DIR}}/pre-commit
+
+  install:
+    desc: Install the package and its dependencies
+    cmds:
+      - pip install .
+      - task: install-git-hooks
+
+  install-dev:
+    desc: Install the package and its dependencies for development
+    cmds:
+      - pip install .[dev] .
+      - task: install-git-hooks
+
+  install-dev-editable:
+    desc: Install the package and its dependencies for development with editablility
+    cmds:
+      - pip install -e .[dev] .
+      - task: install-git-hooks
+
+  docs:
+    desc: Generate module documentation into the docs/ folder
+    cmds:
+      - echo {{.VERSION}}
+      - pdoc -o docs common/app/ common/config/ common/logger/ --footer-text="py-12f-common {{.VERSION}}"
+
+  clean:
+    desc: Clean temporary files and folders
+    cmds:
+      - rm .coverage -f
+      - rm htmlcov -fr
+      - rm docs/* -fr
+
