@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  qa:
+    uses: tombenke/py-12f-common/.github/workflows/qa.yml@master
+
+  build-and-publish:
+    needs: qa
+    runs-on: ubuntu-latest
+    steps:
+      - id: setup
+        uses: tombenke/py-12f-common/.github/actions/setup@master
+
+      - id: checkout
+        uses: tombenke/py-12f-common/.github/actions/checkout@master
+
+      - name: Build the package
+        run: task build
+
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
