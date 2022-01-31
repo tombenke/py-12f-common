@@ -8,6 +8,7 @@ from common.config import Config, ConfigEntry, CliEntry
 test_set = dict(
     LOG_LEVEL="debug",
     LOG_FORMAT="text",
+    NO_SHORT_FLAG="no_short_flag",
 )
 
 APP_NAME = "an-application"
@@ -27,6 +28,12 @@ config_entries = [
         cli=CliEntry(
             short_flag="-f", name="--log-format", choices=get_format_choices()
         ),
+    ),
+    ConfigEntry(
+        name="NO_SHORT_FLAG",
+        help_text=f"No short flag for this parameter",
+        default="text",
+        cli=CliEntry(short_flag=None, name="--no-short-flag"),
     ),
 ]
 
@@ -75,6 +82,8 @@ class ConfigTestCase(unittest.TestCase):
                 test_set["LOG_LEVEL"],
                 "-f",
                 test_set["LOG_FORMAT"],
+                "--no-short-flag",
+                test_set["NO_SHORT_FLAG"],
             ]
         )
         assert_with_expected(self, config, test_set)

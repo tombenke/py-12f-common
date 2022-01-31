@@ -99,31 +99,61 @@ class Config:
                 (short_flag, name, entry_type, action, choices) = cli
                 if action in ["store_false", "store_true"]:
                     # It is a boolean flag
-                    parser.add_argument(
-                        short_flag, name, help=help_text, default=default, action=action
-                    )
-                else:
-                    if choices is not None:
-                        # It is a selection from the list of choices
+                    if short_flag is None:
                         parser.add_argument(
-                            short_flag,
-                            name,
-                            type=entry_type,
-                            help=help_text,
-                            default=default,
-                            action=action,
-                            choices=choices,
+                            name, help=help_text, default=default, action=action
                         )
                     else:
-                        # It is a normal flag or positional parameter
                         parser.add_argument(
                             short_flag,
                             name,
-                            type=entry_type,
                             help=help_text,
                             default=default,
                             action=action,
                         )
+                else:
+                    if short_flag is None:
+                        if choices is not None:
+                            # It is a selection from the list of choices
+                            parser.add_argument(
+                                name,
+                                type=entry_type,
+                                help=help_text,
+                                default=default,
+                                action=action,
+                                choices=choices,
+                            )
+                        else:
+                            # It is a normal flag or positional parameter
+                            parser.add_argument(
+                                name,
+                                type=entry_type,
+                                help=help_text,
+                                default=default,
+                                action=action,
+                            )
+                    else:
+                        if choices is not None:
+                            # It is a selection from the list of choices
+                            parser.add_argument(
+                                short_flag,
+                                name,
+                                type=entry_type,
+                                help=help_text,
+                                default=default,
+                                action=action,
+                                choices=choices,
+                            )
+                        else:
+                            # It is a normal flag or positional parameter
+                            parser.add_argument(
+                                short_flag,
+                                name,
+                                type=entry_type,
+                                help=help_text,
+                                default=default,
+                                action=action,
+                            )
 
         # Parse the CLI args
         args = vars(parser.parse_args(argv))
