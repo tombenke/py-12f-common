@@ -83,6 +83,12 @@ class Config:
         args = self.get_the_cli_args(argv)
         self.apply_parameters(args)
 
+    def get(self, name):
+        """
+        Get the value of a config parameter by its name
+        """
+        return self.__dict__[name]
+
     def get_the_cli_args(self, argv):
         """
         Parse the CLI parameters, and returns with them as a dictionary

@@ -42,14 +42,13 @@ def assert_with_defaults(test_case, config):
     """Assert the config parameters against the default values"""
     print("\nassert with defaults")
     for p in config_entries:
-        # print(f"assert('{config.__dict__[p.name]}', '{p.default}')")
-        test_case.assertEqual(config.__dict__[p.name], p.default)
+        test_case.assertEqual(config.get(p.name), p.default)
 
 
 def assert_with_expected(test_case, config, ref):
     """Assert the config parameters against the expected values"""
     for p in ref:
-        test_case.assertEqual(config.__dict__[p], ref[p])
+        test_case.assertEqual(config.get(p), ref[p])
 
 
 class ConfigTestCase(unittest.TestCase):
