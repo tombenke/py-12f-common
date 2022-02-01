@@ -66,6 +66,10 @@ Run tests:
     task test-verbose
 ```
 
+## License
+The scripts and documentation in this project are released under the [MIT License](LICENSE)
+
+
 ## References
 
 ## Development tools
