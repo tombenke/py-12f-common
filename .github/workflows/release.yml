@@ -7,17 +7,17 @@ on:
 
 jobs:
   qa:
-    uses: tombenke/py-12f-common/.github/workflows/qa.yml@master
+    uses: tombenke/py-gh-actions/.github/workflows/qa.yml@master
 
   build-and-publish:
     needs: qa
     runs-on: ubuntu-latest
     steps:
       - id: setup
-        uses: tombenke/py-12f-common/.github/actions/setup@master
+        uses: tombenke/py-gh-actions/.github/actions/setup@master
 
       - id: checkout
-        uses: tombenke/py-12f-common/.github/actions/checkout@master
+        uses: tombenke/py-gh-actions/.github/actions/checkout@master
 
       - name: Build the package
         run: task build

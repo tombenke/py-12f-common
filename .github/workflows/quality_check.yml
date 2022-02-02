@@ -5,9 +5,7 @@ on:
     branches:
       - "*" # matches every branch
       - "*/*" # matches every branch containing a single '/'
-        #      - "!ci/*" # excludes ci branches
-        #      - "!master" # excludes master
 
 jobs:
   qa:
-    uses: tombenke/py-12f-common/.github/workflows/qa.yml@master
+    uses: tombenke/py-gh-actions/.github/workflows/qa.yml@master
