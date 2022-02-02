@@ -22,6 +22,7 @@ REQUIRED = [
     "argparse",
     "dataclasses",
     "loguru",
+    "typing",
 ]
 
 DEV_REQUIREMENTS = [

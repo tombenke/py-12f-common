@@ -3,6 +3,7 @@ import argparse
 from dataclasses import dataclass, astuple
 import os
 import re
+import dotenv
 
 
 @dataclass
@@ -61,6 +62,9 @@ class Config:
         self.app_name = app_name
         self.app_description = app_description
         self.config_entries = config_entries
+
+        # Load environment variables from .env if exists
+        dotenv.load_dotenv(".env")
 
         for config_entry in config_entries:
             (name, _, default, _) = config_entry
