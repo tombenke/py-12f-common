@@ -21,6 +21,7 @@ REQUIRES_PYTHON = ">=3.8"
 REQUIRED = [
     "argparse",
     "dataclasses",
+    "dotenv",
     "loguru",
     "typing",
 ]
