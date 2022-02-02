@@ -31,7 +31,7 @@ config_entries = [
     ),
     ConfigEntry(
         name="NO_SHORT_FLAG",
-        help_text=f"No short flag for this parameter",
+        help_text="No short flag for this parameter",
         default="text",
         cli=CliEntry(short_flag=None, name="--no-short-flag"),
     ),
@@ -41,14 +41,14 @@ config_entries = [
 def assert_with_defaults(test_case, config):
     """Assert the config parameters against the default values"""
     print("\nassert with defaults")
-    for p in config_entries:
-        test_case.assertEqual(config.get(p.name), p.default)
+    for config_entry in config_entries:
+        test_case.assertEqual(config.__dict__[config_entry.name], config_entry.default)
 
 
 def assert_with_expected(test_case, config, ref):
     """Assert the config parameters against the expected values"""
-    for p in ref:
-        test_case.assertEqual(config.get(p), ref[p])
+    for prop_name in ref:
+        test_case.assertEqual(config.__dict__[prop_name], ref[prop_name])
 
 
 class ConfigTestCase(unittest.TestCase):
@@ -68,12 +68,12 @@ class ConfigTestCase(unittest.TestCase):
         assert_with_defaults(self, config)
 
         # setup the environment
-        for p in test_set:
-            os.environ[p] = test_set[p]
+        os.environ.update(test_set)
         config = Config(APP_NAME, APP_DESCRIPTION, config_entries)
         assert_with_expected(self, config, test_set)
 
     def test_config_via_argv(self) -> None:
+        """Test the config via parsing the CLI arguments"""
         config = Config(APP_NAME, APP_DESCRIPTION, config_entries)
         config.apply_cli_args(
             [
