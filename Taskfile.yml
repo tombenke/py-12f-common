@@ -92,7 +92,7 @@ tasks:
   install-dev-editable:
     desc: Install the package and its dependencies for development with editablility
     cmds:
-      - pip install -e .[dev] .
+      - VERSION={{.VERSION}} pip install -e .[dev] .
       - task: install-git-hooks
 
   docs:

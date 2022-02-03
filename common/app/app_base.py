@@ -18,8 +18,13 @@ class ApplicationBase(ABC):
         self._loop = None  # type: Optional[asyncio.AbstractEventLoop]
         self._wait_event = None  # type: Optional[asyncio.Event]
         self._wait_task = None  # type: Optional[asyncio.Task]
-        self.logger = init_logger(config.LOG_LEVEL, config.LOG_FORMAT)
+        self.logger = init_logger(config.get("LOG_LEVEL"), config.get("LOG_FORMAT"))
         self.config = config
+
+    async def jobs(self):
+        """
+        The subclasses can place here their jobs, that run after start() finished.
+        """
 
     def run(self):
         """
@@ -48,13 +53,15 @@ class ApplicationBase(ABC):
                 raise
 
             # Application is started now and is running.
-            # Wait for a termination event infinitelly.
-
+            # Wait for a termination event infinitely.
             self.logger.info("Application.run: entering wait loop")
             self._wait()
             self.logger.info("Application.run: exiting wait loop")
 
-        except KeyboardInterrupt:
+        # Any unhandled exception occures, the application will terminate
+        except RuntimeError:
+            pass
+        except BaseException:
             # The stop() is also shielded from termination.
             try:
                 with DelayedKeyboardInterrupt(self.logger):
@@ -76,7 +83,8 @@ class ApplicationBase(ABC):
         """
         self._wait_event = asyncio.Event()
         self._wait_task = asyncio.create_task(self._wait_event.wait())
-        await self._wait_task
+        await asyncio.gather(self.jobs(), self._wait_task)
+        # await self._wait_task
 
     def _start(self):
         self._loop.run_until_complete(self.start())

@@ -26,6 +26,12 @@ def init_logger(log_level: str, log_format: str):
     # Remove the default logger before configuring
     app_logger.remove()
 
+    if log_level is None:
+        log_level = "info"
+
+    if log_format is None:
+        log_format = "text"
+
     # Create a new sink instance, and set the format and level
     if log_format.upper() == "JSON":
         app_logger.add(sys.stderr, level=log_level.upper(), serialize=True)

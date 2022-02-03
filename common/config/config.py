@@ -91,7 +91,10 @@ class Config:
         """
         Get the value of a config parameter by its name
         """
-        return self.__dict__[name]
+        if name in self.__dict__:
+            return self.__dict__[name]
+
+        return None
 
     def get_the_cli_args(self, argv):
         """
