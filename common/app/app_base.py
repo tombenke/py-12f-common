@@ -3,7 +3,8 @@ from abc import ABC, abstractmethod
 import asyncio
 from typing import Dict, Optional, Any
 from ..logger.logger import init_logger
-from .signals import DelayedKeyboardInterrupt
+from .signals import DelayedKeyboardInterrupt, add_term_signal_handler
+from .app_terminate import terminate
 
 
 class ApplicationBase(ABC):
@@ -25,6 +26,7 @@ class ApplicationBase(ABC):
         """
         The subclasses can place here their jobs, that run after start() finished.
         """
+        self.logger.debug("ApplicationBase.jobs() is called")
 
     def run(self):
         """
@@ -52,6 +54,11 @@ class ApplicationBase(ABC):
                 self.logger.info("Application.run: got KeyboardInterrupt during start")
                 raise
 
+            def signal_cb():
+                terminate()
+
+            add_term_signal_handler(self.logger, signal_cb)
+
             # Application is started now and is running.
             # Wait for a termination event infinitely.
             self.logger.info("Application.run: entering wait loop")
@@ -59,8 +66,6 @@ class ApplicationBase(ABC):
             self.logger.info("Application.run: exiting wait loop")
 
         # Any unhandled exception occures, the application will terminate
-        except RuntimeError:
-            pass
         except BaseException:
             # The stop() is also shielded from termination.
             try:

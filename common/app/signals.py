@@ -15,6 +15,22 @@ SIGNAL_TRANSLATION_MAP = {
 }
 
 
+def add_term_signal_handler(logger, callback):
+    """
+    Register a callback function to catch the SIGINT and SIGTERM signals
+    """
+
+    def signal_cb_wrapper(callback):
+        def fun(sig, frame):
+            logger.info(f"signal: {sig}, frame: {frame}")
+            callback()
+
+        return fun
+
+    signal.signal(signal.SIGINT, signal_cb_wrapper(callback))
+    signal.signal(signal.SIGTERM, signal_cb_wrapper(callback))
+
+
 class DelayedKeyboardInterrupt:
     """
     A context provider class, that makes possible to postpone the handling of exceptions

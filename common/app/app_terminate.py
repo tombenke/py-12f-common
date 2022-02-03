@@ -3,7 +3,7 @@
 from common.logger import get_logger
 
 
-class TerminalException(Exception):
+class TerminalException(BaseException):
     """
     Customer exception.
     Raise this to terminate the running of applications.
