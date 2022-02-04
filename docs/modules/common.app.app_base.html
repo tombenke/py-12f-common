@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>common.app.app_base module &mdash; py-12f-common v0.5.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="common.app.app_entrypoint module" href="common.app.app_entrypoint.html" />
+    <link rel="prev" title="common.app package" href="common.app.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> py-12f-common
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">common</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="common.html">common package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="common.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="common.app.html">common.app package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="common.config.html">common.config package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="common.logger.html">common.logger package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">py-12f-common</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">common</a> &raquo;</li>
+          <li><a href="common.html">common package</a> &raquo;</li>
+          <li><a href="common.app.html">common.app package</a> &raquo;</li>
+      <li>common.app.app_base module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/common.app.app_base.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-common.app.app_base">
+<span id="common-app-app-base-module"></span><h1>common.app.app_base module<a class="headerlink" href="#module-common.app.app_base" title="Permalink to this headline"></a></h1>
+<p>The application base class <a class="footnote-reference brackets" href="#id2" id="id1">1</a>.</p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id3">2</a>)</span></dt>
+<dd><p>The KeyboardInterrupt handling, and signal handler shadowing is implemented based on the
+<a class="reference external" href="https://github.com/wbenny/python-graceful-shutdown">Holy grail of graceful shutdown in Python</a>.
+Credits to <a class="reference external" href="https://github.com/wbenny">Petr Beneš (wbenny)</a>.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="common.app.app_base.ApplicationBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.app.app_base.</span></span><span class="sig-name descname"><span class="pre">ApplicationBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.ApplicationBase" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract base class for applications <a class="footnote-reference brackets" href="#id2" id="id3">1</a>.</p>
+<p>It is responsible for</p>
+<ul class="simple">
+<li><p>storing the configuration,</p></li>
+<li><p>setting up the central logger,</p></li>
+<li><p>starting internal services,</p></li>
+<li><p>keep running until graceful shut-down (caused by a termination signal, or internal error),</p></li>
+<li><p>stop the internal services when shuts down.</p></li>
+</ul>
+<p>When you create a new instance of a derived application class, you are handing over the actual
+deployment-dependent configuration to it.
+The constructor of the base class stores this config, as well as it initializes the logger,
+according to the configuration’s <code class="docutils literal notranslate"><span class="pre">LOG_LEVEL</span></code> and <code class="docutils literal notranslate"><span class="pre">LOG_FORMAT</span></code> properties.</p>
+<p>Applications that are subclass of this base class must implement two <code class="docutils literal notranslate"><span class="pre">async</span></code> member functions:
+<code class="docutils literal notranslate"><span class="pre">start()</span></code> and <code class="docutils literal notranslate"><span class="pre">stop()</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">start()</span></code> will be called by the <code class="docutils literal notranslate"><span class="pre">run()</span></code> function, when the application starts running.
+You can put those operations here, for example, that initializes resources, open database connections, etc.
+The <code class="docutils literal notranslate"><span class="pre">stop()</span></code> will be called, when the application is shutting down. This is, where you can put
+those operations that needs to be executed, before the application exits, e.g. closing database
+connections.</p>
+<p>After creating the application class, you only need to call the <code class="docutils literal notranslate"><span class="pre">run()</span></code> member function,
+then the application will start running, calls the <code class="docutils literal notranslate"><span class="pre">start()</span></code> function
+and enters into its internal <code class="docutils literal notranslate"><span class="pre">wait()</span></code> function, which is waiting for a termination signal.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">wait()</span></code> function also keep running those asynchronous tasks, that were created via
+the <code class="docutils literal notranslate"><span class="pre">start()</span></code> function.</p>
+<p>It is also possible to run some extra jobs, because the <code class="docutils literal notranslate"><span class="pre">ApplicationBase</span></code> will call
+its <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">jobs()</span></code> function before it enters its wait function.
+The default implementation of <code class="docutils literal notranslate"><span class="pre">jobs()</span></code> is empty. You can overload it with your implementation.
+It is also possible to execute the <code class="docutils literal notranslate"><span class="pre">terminate()</span></code> function at the end of the <code class="docutils literal notranslate"><span class="pre">jobs()</span></code> function,
+then the application will automatically shuts down, after finished the jobs.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.app_base.ApplicationBase.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.ApplicationBase.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes the new application object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<a class="reference internal" href="common.config.config.html#common.config.config.Config" title="common.config.config.Config"><em>Config</em></a>) – the configuration object of the overall application.</p>
+</dd>
+</dl>
+<p>It creates an internal event-loop, that will be used to create and run the application’s
+internal services, tasks.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.app_base.ApplicationBase.jobs">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">jobs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.ApplicationBase.jobs" title="Permalink to this definition"></a></dt>
+<dd><p>The subclasses can place here their jobs, that run after start() finished.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.app_base.ApplicationBase.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.ApplicationBase.run" title="Permalink to this definition"></a></dt>
+<dd><p>Runs the application according to the following steps:</p>
+<ol class="arabic simple">
+<li><p>Starts the internal services, defined by the <code class="docutils literal notranslate"><span class="pre">start()</span></code> member function.</p></li>
+<li><p>Executes the <code class="docutils literal notranslate"><span class="pre">jobs()</span></code> member function.</p></li>
+<li><p>Enters the internal event processing execution loop, and wait until either a
+an unhandled interruption occur, or the application receives a signal for stopping.</p></li>
+<li><p>Shuts down the internal services according to the implementation of the <code class="docutils literal notranslate"><span class="pre">stop()</span></code> function.</p></li>
+<li><p>Exits.</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.app_base.ApplicationBase.start">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.ApplicationBase.start" title="Permalink to this definition"></a></dt>
+<dd><p>Starts the application</p>
+<p>This function will be called by the <code class="docutils literal notranslate"><span class="pre">run()</span></code> function, when the application starts running.
+You can put those operations here, for example, that initializes resources,
+open database connections, starts tasks, etc.</p>
+<p>This is an abstract member function that the subclass of ApplicationBase class must implement.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.app_base.ApplicationBase.stop">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.ApplicationBase.stop" title="Permalink to this definition"></a></dt>
+<dd><p>Shuts down the application</p>
+<p>It will be called, when the application is shutting down.
+This is, where you can put those operations that needs to be executed,
+before the application exits, e.g. closing database connections.</p>
+<p>This is an abstract member function that the subclass of ApplicationBase class must implement.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.app_base.ApplicationBase.wait">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.ApplicationBase.wait" title="Permalink to this definition"></a></dt>
+<dd><p>Wait until the application got stop signal</p>
+<p>This function also keep running those asynchronous tasks,
+as well as those that may have created via the <code class="docutils literal notranslate"><span class="pre">jobs()</span></code> member function.
+that were created via the <code class="docutils literal notranslate"><span class="pre">start()</span></code> function.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="common.app.html" class="btn btn-neutral float-left" title="common.app package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="common.app.app_entrypoint.html" class="btn btn-neutral float-right" title="common.app.app_entrypoint module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, TomBenke.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

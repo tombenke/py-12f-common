@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>common.config.config module &mdash; py-12f-common v0.5.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="common.logger package" href="common.logger.html" />
+    <link rel="prev" title="common.config package" href="common.config.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> py-12f-common
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">common</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="common.html">common package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="common.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="common.app.html">common.app package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="common.config.html">common.config package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="common.logger.html">common.logger package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">py-12f-common</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">common</a> &raquo;</li>
+          <li><a href="common.html">common package</a> &raquo;</li>
+          <li><a href="common.config.html">common.config package</a> &raquo;</li>
+      <li>common.config.config module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/common.config.config.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-common.config.config">
+<span id="common-config-config-module"></span><h1>common.config.config module<a class="headerlink" href="#module-common.config.config" title="Permalink to this headline"></a></h1>
+<p>This sub-module holds the classes for the configuration management.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Config</span></code> class plays the central role. It uses az array of <code class="docutils literal notranslate"><span class="pre">ConfigEntry</span></code> instances to
+define the list of config parameters, incl. their names and default values.
+Each <code class="docutils literal notranslate"><span class="pre">ConfigEntry</span></code> has its own <code class="docutils literal notranslate"><span class="pre">CliEntry</span></code> property, which describes the comman-line related
+counterparts of the config parameters.</p>
+<p>This module is responsible for giving default values to the config parameters,
+evaulate the environment variables and command-line parameters, and applies them to the config variables.</p>
+<p>The precedence is the following, in ascending order (command-line is the strongest):
+- default value,
+- environment variable,
+- command-line parameter.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="common.config.config.CliEntry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.config.config.</span></span><span class="sig-name descname"><span class="pre">CliEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">short_flag:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry_type:</span> <span class="pre">type</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'store'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices:</span> <span class="pre">typing.Optional[list]</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.config.config.CliEntry" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>It is the command-line entry descriptor data-class.</p>
+<p>It holds the details of a ConfigEntry about how to setup the command-line arg parser.</p>
+<p>NOTE: The properties hold by this class are strongly related to
+the <a class="reference external" href="https://docs.python.org/3/library/argparse.html">argparse</a> package.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cli_entry</span> <span class="o">=</span> <span class="n">CliEntry</span><span class="p">(</span>
+    <span class="n">short_flag</span><span class="o">=</span><span class="s2">&quot;-d&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;--dump-config&quot;</span><span class="p">,</span>
+    <span class="n">entry_type</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
+    <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.config.config.CliEntry.short_flag">
+<span class="sig-name descname"><span class="pre">short_flag</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#common.config.config.CliEntry.short_flag" title="Permalink to this definition"></a></dt>
+<dd><p>Defines the short name of an optional CLI argument, for example: <code class="docutils literal notranslate"><span class="pre">-f</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.config.config.CliEntry.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#common.config.config.CliEntry.name" title="Permalink to this definition"></a></dt>
+<dd><p>Defines the name of an optional command-line argument, for example: <code class="docutils literal notranslate"><span class="pre">--file-name</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.config.config.CliEntry.entry_type">
+<span class="sig-name descname"><span class="pre">entry_type</span></span><a class="headerlink" href="#common.config.config.CliEntry.entry_type" title="Permalink to this definition"></a></dt>
+<dd><p>The type of the argument, e.g. <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code>.
+See also: <a class="reference external" href="https://docs.python.org/3/library/argparse.html#type">the argparse docs / type</a></p>
+<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.config.config.CliEntry.action">
+<span class="sig-name descname"><span class="pre">action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'store'</span></em><a class="headerlink" href="#common.config.config.CliEntry.action" title="Permalink to this definition"></a></dt>
+<dd><p>It specifies how the comman-line argument should be handled.
+See also: <a class="reference external" href="https://docs.python.org/3/library/argparse.html#action">the argparse docs / action</a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.config.config.CliEntry.choices">
+<span class="sig-name descname"><span class="pre">choices</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#common.config.config.CliEntry.choices" title="Permalink to this definition"></a></dt>
+<dd><p>The list of possible choices, in case the value can be chosen from a predefined set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.config.config.CliEntry.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">short_flag:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry_type:</span> <span class="pre">type</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'store'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices:</span> <span class="pre">typing.Optional[list]</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#common.config.config.CliEntry.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="common.config.config.ConfigEntry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.config.config.</span></span><span class="sig-name descname"><span class="pre">ConfigEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cli</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#common.config.config.CliEntry" title="common.config.config.CliEntry"><span class="pre">common.config.config.CliEntry</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.config.config.ConfigEntry" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Config parameter descriptor data-class</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ConfigEntry</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;LOG_LEVEL&quot;</span><span class="p">,</span>
+    <span class="n">help_text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Log level </span><span class="si">{</span><span class="n">get_level_choices</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">default</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">,</span>
+    <span class="n">cli</span><span class="o">=</span><span class="n">CliEntry</span><span class="p">(</span><span class="n">short_flag</span><span class="o">=</span><span class="s2">&quot;-l&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;--log-level&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">get_level_choices</span><span class="p">()),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.config.config.ConfigEntry.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#common.config.config.ConfigEntry.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the config parameter.</p>
+<p>Usually this is the name of the environment variable may be used accompanied with the command-line parameter.
+It should be ALL-CAPS.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.config.config.ConfigEntry.help_text">
+<span class="sig-name descname"><span class="pre">help_text</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#common.config.config.ConfigEntry.help_text" title="Permalink to this definition"></a></dt>
+<dd><p>The short description of the config parameter, that will be displayed to the console
+when the <code class="docutils literal notranslate"><span class="pre">--help</span></code> switch is used for the application.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.config.config.ConfigEntry.default">
+<span class="sig-name descname"><span class="pre">default</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#common.config.config.ConfigEntry.default" title="Permalink to this definition"></a></dt>
+<dd><p>The default value of the config parameter.</p>
+<p>The config parameter always has default value, that can be overwritten either by the value of the
+environment variable with the same name, if exists and/or the command-line parameter.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.config.config.ConfigEntry.cli">
+<span class="sig-name descname"><span class="pre">cli</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#common.config.config.CliEntry" title="common.config.config.CliEntry"><span class="pre">common.config.config.CliEntry</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#common.config.config.ConfigEntry.cli" title="Permalink to this definition"></a></dt>
+<dd><p>The definition of the command-line argument entry, if there is any.</p>
+<p>If given, it defines the hints of the command-line optional argument counterpart of the config parameter.
+Before parsing of the command line parameters, each parameter will be initialized with the actual value
+of the corresponding config parameter, using the built-in default value, then applying the environment variable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.config.config.ConfigEntry.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cli</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#common.config.config.CliEntry" title="common.config.config.CliEntry"><span class="pre">common.config.config.CliEntry</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#common.config.config.ConfigEntry.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="common.config.config.Config">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.config.config.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_entries</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.config.config.Config" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration class that represent the actual config parameter set of the application.
+The class provides method for resolving the config parameters
+from env variables as well as from CLI parameters.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="common.config.config.Config.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_entries</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.config.config.Config.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Constructor for the application config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_name</strong> (<em>str</em>) – The name of the application.</p></li>
+<li><p><strong>app_description</strong> (<em>str</em>) – The short description of the application.</p></li>
+<li><p><strong>config_entries</strong> (<em>Array</em><em>[</em><a class="reference internal" href="#common.config.config.ConfigEntry" title="common.config.config.ConfigEntry"><em>ConfigEntry</em></a><em>]</em>) – The array of the definitions of config entries.</p></li>
+</ul>
+</dd>
+</dl>
+<p>It fills the object with the properties given by the <cite>config_entries</cite> argument.
+It also sets the initial value of each parameter from the environment, if it is found
+or set to its default value if the corresponding environment var is missing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.config.config.Config.apply_parameters">
+<span class="sig-name descname"><span class="pre">apply_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.config.config.Config.apply_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Overwrites the actual values of the configuration properties with the values given by the
+<cite>parameters</cite> dictionary. Typical usage is, when the CLI argument parser wants to overwrite
+the default, or environment values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameters</strong> (<em>dict</em>) – The dictionary of parameters, that have to be applied to the actual set of
+configuration parameters.
+The keys in the <code class="docutils literal notranslate"><span class="pre">parameters</span></code> must fit to the names in the configuration object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.config.config.Config.apply_cli_args">
+<span class="sig-name descname"><span class="pre">apply_cli_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.config.config.Config.apply_cli_args" title="Permalink to this definition"></a></dt>
+<dd><p>Take the actual CLI parameters according to the definitions in <cite>self.config_entries</cite>
+parse them, and apply them to the actual properties of the config object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>argv</strong> (<em>Array</em><em>[</em><em>str</em><em>]</em>) – The command line parameters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.config.config.Config.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.config.config.Config.get" title="Permalink to this definition"></a></dt>
+<dd><p>Get the value of a config parameter by its name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name of the config parameter</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value of the config parameter found, or <code class="docutils literal notranslate"><span class="pre">None</span></code>, if not found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.config.config.Config.get_the_cli_args">
+<span class="sig-name descname"><span class="pre">get_the_cli_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.config.config.Config.get_the_cli_args" title="Permalink to this definition"></a></dt>
+<dd><p>Parse the CLI parameters, and returns with them as a dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>argv</strong> (<em>Array</em><em>[</em><em>str</em><em>]</em>) – The command-line parameters</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.config.config.Config.dump">
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.config.config.Config.dump" title="Permalink to this definition"></a></dt>
+<dd><p>Prints the actual values of the config parameters to the console</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="common.config.html" class="btn btn-neutral float-left" title="common.config package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="common.logger.html" class="btn btn-neutral float-right" title="common.logger package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, TomBenke.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
