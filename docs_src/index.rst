@@ -1,5 +1,9 @@
-Welcome to py-12f-common's documentation!
-=========================================
+py-12f-common
+=============
+
+A Python library to help implementing 12 factor applications.
+
+This project is `hosted on GitHub <https://github.com/tombenke/py-12f-common>`__.
 
 .. toctree::
    :maxdepth: 3
@@ -7,7 +11,8 @@ Welcome to py-12f-common's documentation!
 
    about
    usage
-   modules/modules
+   examples/examples
+   modules
    contributors
 
 .. warning::

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A bare-minimum application &mdash; py-12f-common v0.5.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Modules" href="../modules.html" />
+    <link rel="prev" title="Examples" href="examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> py-12f-common
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">A bare-minimum application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-source-code">The source code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">py-12f-common</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="examples.html">Examples</a> &raquo;</li>
+      <li>A bare-minimum application</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/minimum.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="a-bare-minimum-application">
+<h1>A bare-minimum application<a class="headerlink" href="#a-bare-minimum-application" title="Permalink to this headline"></a></h1>
+<p>This example introduces a bare-minimum application made, using the py-12f-common package.</p>
+<p>The application can be found in the
+<a class="reference external" href="https://github.com/tombenke/py-12f-common/tree/master/examples/minimum">examples/minimum/ folder</a>
+in the project’s github repository.</p>
+<section id="the-source-code">
+<h2>The source code<a class="headerlink" href="#the-source-code" title="Permalink to this headline"></a></h2>
+<p>It is a single-file application. The source code is structured on the following way:</p>
+<p>The firs part contain the package imports,
+and the definition of the configuration object of the application:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">common.app</span> <span class="kn">import</span> <span class="n">ApplicationBase</span><span class="p">,</span> <span class="n">application_entrypoint</span>
+<span class="kn">from</span> <span class="nn">common.config</span> <span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">ConfigEntry</span><span class="p">,</span> <span class="n">CliEntry</span>
+<span class="kn">from</span> <span class="nn">common.logger</span> <span class="kn">import</span> <span class="n">get_level_choices</span><span class="p">,</span> <span class="n">get_format_choices</span>
+
+<span class="n">APP_NAME</span> <span class="o">=</span> <span class="s2">&quot;minimum&quot;</span>
+<span class="n">APP_DESCRIPTION</span> <span class="o">=</span> <span class="s2">&quot;The bare-minimum application&quot;</span>
+
+<span class="n">config_entries</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">ConfigEntry</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;LOG_LEVEL&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Log level </span><span class="si">{</span><span class="n">get_level_choices</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">,</span>
+        <span class="n">cli</span><span class="o">=</span><span class="n">CliEntry</span><span class="p">(</span><span class="n">short_flag</span><span class="o">=</span><span class="s2">&quot;-l&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;--log-level&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">get_level_choices</span><span class="p">()),</span>
+    <span class="p">),</span>
+    <span class="n">ConfigEntry</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;LOG_FORMAT&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;The format of the log messages </span><span class="si">{</span><span class="n">get_format_choices</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+        <span class="n">cli</span><span class="o">=</span><span class="n">CliEntry</span><span class="p">(</span>
+            <span class="n">short_flag</span><span class="o">=</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;--log-format&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">get_format_choices</span><span class="p">()</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+    <span class="n">ConfigEntry</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;DUMP_CONFIG&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Dump the actual configuration parameters of the application&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">cli</span><span class="o">=</span><span class="n">CliEntry</span><span class="p">(</span>
+            <span class="n">short_flag</span><span class="o">=</span><span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;--dump-config&quot;</span><span class="p">,</span> <span class="n">entry_type</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">application_config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="n">APP_NAME</span><span class="p">,</span> <span class="n">APP_DESCRIPTION</span><span class="p">,</span> <span class="n">config_entries</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The configuration object defines two choices-type parameters: <code class="docutils literal notranslate"><span class="pre">LOG_LEVEL</span></code> and <code class="docutils literal notranslate"><span class="pre">LOG_FORMAT</span></code>
+and <code class="docutils literal notranslate"><span class="pre">DUMP_CONFIG</span></code> that is a boolean type parameter.</p>
+<p>The choices-type parameters uses the  <code class="docutils literal notranslate"><span class="pre">get_level_choices()</span></code> and  <code class="docutils literal notranslate"><span class="pre">get_format_choices()</span></code> functions
+imported from the <code class="docutils literal notranslate"><span class="pre">common.logger</span></code> module to define the selectable values for the command-line arguments.</p>
+<p>The second part defines a very simple <code class="docutils literal notranslate"><span class="pre">Application</span></code> class, that implements the <code class="docutils literal notranslate"><span class="pre">start()</span></code> and <code class="docutils literal notranslate"><span class="pre">stop()</span></code>
+functions, that actually do nothing, but write out some log messages:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Application</span><span class="p">(</span><span class="n">ApplicationBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Application class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Starts the application, and sets up the internal modules and services&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;app starts&quot;</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shuts down the application&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;app shuts down&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The final section of the application uses the <code class="docutils literal notranslate"><span class="pre">application_entrypoint()</span></code> function
+of the <code class="docutils literal notranslate"><span class="pre">common.app</span></code> module, that parses the command-line arguments and start the application.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;The main entry point of the application&quot;&quot;&quot;</span>
+    <span class="n">application_entrypoint</span><span class="p">(</span><span class="n">Application</span><span class="p">,</span> <span class="n">application_config</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>Start the application, to get help:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">m$ python main.py  --help</span>
+<span class="go">usage: minimum [-h] [-l {critical,error,warning,success,info,debug,trace}] [-f {text,json}] [-d]</span>
+
+<span class="go">The bare-minimum application</span>
+
+<span class="go">optional arguments:</span>
+<span class="go">  -h, --help            show this help message and exit</span>
+<span class="go">  -l {critical,error,warning,success,info,debug,trace}, --log-level {critical,error,warning,success,info,debug,trace}</span>
+<span class="go">                        Log level [&#39;critical&#39;, &#39;error&#39;, &#39;warning&#39;, &#39;success&#39;, &#39;info&#39;, &#39;debug&#39;, &#39;trace&#39;]</span>
+<span class="go">  -f {text,json}, --log-format {text,json}</span>
+<span class="go">                        The format of the log messages [&#39;text&#39;, &#39;json&#39;]</span>
+<span class="go">  -d, --dump-config     Dump the actual configuration parameters of the application</span>
+</pre></div>
+</div>
+<p>Start the application at <code class="docutils literal notranslate"><span class="pre">debug</span></code> log-level, and ask to dump the config parameters:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python main.py  -d -l debug
+
+<span class="go">Config:</span>
+<span class="go">  LOG_LEVEL: &#39;debug&#39;</span>
+<span class="go">  LOG_FORMAT: &#39;text&#39;</span>
+<span class="go">  DUMP_CONFIG: &#39;True&#39;</span>
+<span class="go">2022-02-04 21:08:06.288 | INFO     | __main__:start:46 - app starts</span>
+<span class="go">2022-02-04 21:08:06.289 | INFO     | common.app.app_base:run:116 - Application.run: entering wait loop</span>
+<span class="go">2022-02-04 21:08:06.289 | DEBUG    | common.app.app_base:jobs:74 - ApplicationBase.jobs() is called</span>
+</pre></div>
+</div>
+<p>The application starts at debug log level.
+First it dumps the actual config parameters, then executes the <code class="docutils literal notranslate"><span class="pre">start</span></code> function.
+Next it executes the <code class="docutils literal notranslate"><span class="pre">Application.jobs()</span></code> member function, then waits.</p>
+<p>Now press the <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code> keys:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">^C2022-02-04 21:10:36.241 | INFO     | common.app.signals:fun:27 - signal: 2, frame: &lt;frame at 0xc979b0, file &#39;/usr/lib/python3.8/selectors.py&#39;, line 468, code select&gt;</span>
+<span class="go">2022-02-04 21:10:36.241 | INFO     | common.app.app_terminate:terminate:20 - Terminate the application</span>
+<span class="go">2022-02-04 21:10:36.243 | INFO     | __main__:stop:50 - app shuts down</span>
+<span class="go">2022-02-04 21:10:36.244 | INFO     | common.app.app_base:_cancel_all_tasks:279 - Application._cancel_all_tasks: cancelling 1 tasks ...</span>
+<span class="go">2022-02-04 21:10:36.245 | INFO     | common.app.app_base:_stop:251 - Application._stop: closing event loop</span>
+</pre></div>
+</div>
+<p>The application calls the <code class="docutils literal notranslate"><span class="pre">stop()</span></code> function and exits.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../modules.html" class="btn btn-neutral float-right" title="Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, TomBenke.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -97,6 +97,7 @@ tasks:
   docs:
     desc: Generate module documentation into the docs/ folder
     cmds:
+      - task: install-dev-editable
       - echo {{.VERSION}}
         #- PYTHONPATH=. sphinx-autogen docs_src/modules.rst
       - sphinx-apidoc -o docs_src/modules common common/*/tests/ -e -f -M
