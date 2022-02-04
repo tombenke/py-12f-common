@@ -31,9 +31,11 @@ DEV_REQUIREMENTS = [
     "coverage",
     "coverage-badge",
     "black",
-    "pdoc",
+    #    "pdoc",
     "pydeps",
     "pylint",
+    "sphinx >= 4.4.0",
+    "sphinx-rtd-theme",
 ]
 
 setup(

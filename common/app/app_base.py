@@ -1,4 +1,10 @@
-"""The application base class"""
+"""
+The application base class [1]_.
+
+.. [1] The KeyboardInterrupt handling, and signal handler shadowing is implemented based on the
+   `Holy grail of graceful shutdown in Python <https://github.com/wbenny/python-graceful-shutdown>`_.
+   Credits to `Petr Beneš (wbenny) <https://github.com/wbenny>`_.
+"""
 from abc import ABC, abstractmethod
 import asyncio
 from typing import Dict, Optional, Any
@@ -9,12 +15,51 @@ from .app_terminate import terminate
 
 class ApplicationBase(ABC):
     """
-    The ApplicationBase class
+    Abstract base class for applications [1]_.
+
+    It is responsible for
+
+    - storing the configuration,
+    - setting up the central logger,
+    - starting internal services,
+    - keep running until graceful shut-down (caused by a termination signal, or internal error),
+    - stop the internal services when shuts down.
+
+    When you create a new instance of a derived application class, you are handing over the actual
+    deployment-dependent configuration to it.
+    The constructor of the base class stores this config, as well as it initializes the logger,
+    according to the configuration's ``LOG_LEVEL`` and ``LOG_FORMAT`` properties.
+
+    Applications that are subclass of this base class must implement two ``async`` member functions:
+    ``start()`` and ``stop()``.
+    The ``start()`` will be called by the ``run()`` function, when the application starts running.
+    You can put those operations here, for example, that initializes resources, open database connections, etc.
+    The ``stop()`` will be called, when the application is shutting down. This is, where you can put
+    those operations that needs to be executed, before the application exits, e.g. closing database
+    connections.
+
+    After creating the application class, you only need to call the ``run()`` member function,
+    then the application will start running, calls the ``start()`` function
+    and enters into its internal ``wait()`` function, which is waiting for a termination signal.
+
+    The ``wait()`` function also keep running those asynchronous tasks, that were created via
+    the ``start()`` function.
+
+    It is also possible to run some extra jobs, because the ``ApplicationBase`` will call
+    its ``async jobs()`` function before it enters its wait function.
+    The default implementation of ``jobs()`` is empty. You can overload it with your implementation.
+    It is also possible to execute the ``terminate()`` function at the end of the ``jobs()`` function,
+    then the application will automatically shuts down, after finished the jobs.
     """
 
     def __init__(self, config):
         """
-        Initializes the new application object
+        Initializes the new application object.
+
+        :param Config config: the configuration object of the overall application.
+
+        It creates an internal event-loop, that will be used to create and run the application's
+        internal services, tasks.
         """
         self._loop = None  # type: Optional[asyncio.AbstractEventLoop]
         self._wait_event = None  # type: Optional[asyncio.Event]
@@ -30,7 +75,14 @@ class ApplicationBase(ABC):
 
     def run(self):
         """
-        Run the application
+        Runs the application according to the following steps:
+
+        1. Starts the internal services, defined by the ``start()`` member function.
+        2. Executes the ``jobs()`` member function.
+        3. Enters the internal event processing execution loop, and wait until either a
+           an unhandled interruption occur, or the application receives a signal for stopping.
+        4. Shuts down the internal services according to the implementation of the ``stop()`` function.
+        5. Exits.
         """
         self._loop = asyncio.new_event_loop()
 
@@ -76,15 +128,36 @@ class ApplicationBase(ABC):
 
     @abstractmethod
     async def start(self):
-        """Starts the application"""
+        """
+        Starts the application
+
+        This function will be called by the ``run()`` function, when the application starts running.
+        You can put those operations here, for example, that initializes resources,
+        open database connections, starts tasks, etc.
+
+        This is an abstract member function that the subclass of ApplicationBase class must implement.
+        """
 
     @abstractmethod
     async def stop(self):
-        """Shuts down the application"""
+        """
+        Shuts down the application
+
+        It will be called, when the application is shutting down.
+        This is, where you can put those operations that needs to be executed,
+        before the application exits, e.g. closing database connections.
+
+        This is an abstract member function that the subclass of ApplicationBase class must implement.
+        """
 
     async def wait(self):
         """
         Wait until the application got stop signal
+
+        This function also keep running those asynchronous tasks,
+        as well as those that may have created via the ``jobs()`` member function.
+        that were created via the ``start()`` function.
+
         """
         self._wait_event = asyncio.Event()
         self._wait_task = asyncio.create_task(self._wait_event.wait())

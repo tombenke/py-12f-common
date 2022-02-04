@@ -50,9 +50,8 @@ tasks:
     desc: Run python linter
     cmds:
       - task: format
-      - pylint common/app/
-      - pylint common/config/
-      - pylint common/logger/
+      - pylint common/
+      - pylint examples/
 
   build:
     desc: Build
@@ -99,7 +98,10 @@ tasks:
     desc: Generate module documentation into the docs/ folder
     cmds:
       - echo {{.VERSION}}
-      - pdoc -o docs common/app/ common/config/ common/logger/ --footer-text="py-12f-common {{.VERSION}}"
+        #- PYTHONPATH=. sphinx-autogen docs_src/modules.rst
+      - sphinx-apidoc -o docs_src/modules common common/*/tests/ -e -f -M
+      - sphinx-build -b html docs_src/ docs
+#      - pdoc -o docs common/app/ common/config/ common/logger/ --footer-text="py-12f-common {{.VERSION}}"
 
   clean:
     desc: Clean temporary files and folders

@@ -13,8 +13,6 @@ class TestApplication(ApplicationBase):
     async def start(self):
         """Starts the application, and sets up the internal modules and services"""
         self.logger.info("app starts")
-        # task = asyncio.create_task(terminate_after())
-        # await task
 
     async def stop(self):
         """Shuts down the application"""

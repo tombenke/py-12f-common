@@ -1,5 +1,7 @@
 """
 DelayedKeyboardInterrupt implementation.
+
+This module is only internally used by the :class:`~common.app.app_base.ApplicationBase` class.
 """
 import os
 import signal

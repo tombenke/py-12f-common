@@ -12,6 +12,37 @@ def application_entrypoint(
 ):
     """
     The main entry point of the application.
+
+    This is a built-in implementation of a typical application.
+
+    :param Type[ApplicationBase] application_class: The type of the Application class,
+        that origins from the ``ApplicationBase``.
+
+    :param Config config: the default configuration object, with environment values applied to it.
+
+    :param Array argv: The array of CLI arguments. If not defined or ``None``,
+        then the ``sys.argv[1:]`` will be used instead.
+
+    Example of usage:
+
+    .. highlight:: python
+    .. code-block:: python
+
+        #!/usr/bin/env python
+        # -*- coding: utf-8 -*-
+        '''The main entry-point of the application.'''
+        from common.app import application_entrypoint
+        from config import config
+        from app import Application
+
+
+        def main():
+            '''The main entry point of the application'''
+            application_entrypoint(Application, config)
+
+
+        if __name__ == "__main__":
+            main()
     """
     # Parses the CLI arguments, and merge them into the configuration
     if argv is None:
