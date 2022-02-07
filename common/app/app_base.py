@@ -150,20 +150,6 @@ class ApplicationBase(ABC):
         This is an abstract member function that the subclass of ApplicationBase class must implement.
         """
 
-    async def wait(self):
-        """
-        Wait until the application got stop signal
-
-        This function also keep running those asynchronous tasks,
-        as well as those that may have created via the ``jobs()`` member function.
-        that were created via the ``start()`` function.
-
-        """
-        self._wait_event = asyncio.Event()
-        self._wait_task = asyncio.create_task(self._wait_event.wait())
-        await asyncio.gather(self.jobs(), self._wait_task)
-        # await self._wait_task
-
     def _start(self):
         self._loop.run_until_complete(self.start())
 
@@ -250,6 +236,15 @@ class ApplicationBase(ABC):
             # ... and close the loop.
             self.logger.info("Application._stop: closing event loop")
             self._loop.close()
+
+    async def wait(self):
+        """
+        Wait until the application got stop signal
+        """
+        self._wait_event = asyncio.Event()
+        self._wait_task = asyncio.create_task(self._wait_event.wait())
+        await asyncio.gather(self.jobs(), self._wait_task)
+        # await self._wait_task
 
     def _wait(self):
         self._loop.run_until_complete(self.wait())

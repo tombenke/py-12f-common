@@ -51,7 +51,6 @@ tasks:
     cmds:
       - task: format
       - pylint common/
-      - pylint examples/
 
   build:
     desc: Build

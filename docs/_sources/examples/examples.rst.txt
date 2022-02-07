@@ -4,6 +4,7 @@ Examples
 Examples for the usage of the library.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    minimum
+   asyncq

@@ -14,4 +14,5 @@ Subpackages
 
    common.app
    common.config
+   common.examples
    common.logger
