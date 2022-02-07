@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>An application using async queue &mdash; py-12f-common v0.5.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Modules" href="../modules.html" />
+    <link rel="prev" title="A bare-minimum application" href="minimum.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> py-12f-common
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="minimum.html">A bare-minimum application</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">An application using async queue</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-source-code">The source code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">py-12f-common</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="examples.html">Examples</a> &raquo;</li>
+      <li>An application using async queue</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/asyncq.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="an-application-using-async-queue">
+<h1>An application using async queue<a class="headerlink" href="#an-application-using-async-queue" title="Permalink to this headline"></a></h1>
+<p>This application implements a <code class="docutils literal notranslate"><span class="pre">jobs()</span></code> function,
+in which it uses producer-consumer tasks communicating via async queue with each other.</p>
+<p>The application can be found in the
+<a class="reference external" href="https://github.com/tombenke/py-12f-common/tree/master/examples/asyncq">examples/minimum/ folder</a>
+in the project’s github repository.</p>
+<section id="the-source-code">
+<h2>The source code<a class="headerlink" href="#the-source-code" title="Permalink to this headline"></a></h2>
+<p>The configuration is in the <code class="docutils literal notranslate"><span class="pre">config.py</span></code> file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;The config module of the application&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">common.config</span> <span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">ConfigEntry</span><span class="p">,</span> <span class="n">CliEntry</span>
+<span class="kn">from</span> <span class="nn">common.logger</span> <span class="kn">import</span> <span class="n">get_level_choices</span><span class="p">,</span> <span class="n">get_format_choices</span>
+
+<span class="n">APP_NAME</span> <span class="o">=</span> <span class="s2">&quot;minimum&quot;</span>
+<span class="n">APP_DESCRIPTION</span> <span class="o">=</span> <span class="s2">&quot;The bare-minimum application&quot;</span>
+
+<span class="n">config_entries</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">ConfigEntry</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;NUM_PRODUCERS&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;The number of producers&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">cli</span><span class="o">=</span><span class="n">CliEntry</span><span class="p">(</span>
+            <span class="n">short_flag</span><span class="o">=</span><span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;--num-producers&quot;</span><span class="p">,</span> <span class="n">entry_type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+    <span class="n">ConfigEntry</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;NUM_CONSUMERS&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;The number of consumers&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">cli</span><span class="o">=</span><span class="n">CliEntry</span><span class="p">(</span>
+            <span class="n">short_flag</span><span class="o">=</span><span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;--num-consumers&quot;</span><span class="p">,</span> <span class="n">entry_type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store&quot;</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+    <span class="n">ConfigEntry</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;LOG_LEVEL&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Log level </span><span class="si">{</span><span class="n">get_level_choices</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">,</span>
+        <span class="n">cli</span><span class="o">=</span><span class="n">CliEntry</span><span class="p">(</span><span class="n">short_flag</span><span class="o">=</span><span class="s2">&quot;-l&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;--log-level&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">get_level_choices</span><span class="p">()),</span>
+    <span class="p">),</span>
+    <span class="n">ConfigEntry</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;LOG_FORMAT&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;The format of the log messages </span><span class="si">{</span><span class="n">get_format_choices</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+        <span class="n">cli</span><span class="o">=</span><span class="n">CliEntry</span><span class="p">(</span>
+            <span class="n">short_flag</span><span class="o">=</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;--log-format&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">get_format_choices</span><span class="p">()</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+    <span class="n">ConfigEntry</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;DUMP_CONFIG&quot;</span><span class="p">,</span>
+        <span class="n">help_text</span><span class="o">=</span><span class="s2">&quot;Dump the actual configuration parameters of the application&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">cli</span><span class="o">=</span><span class="n">CliEntry</span><span class="p">(</span>
+            <span class="n">short_flag</span><span class="o">=</span><span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;--dump-config&quot;</span><span class="p">,</span> <span class="n">entry_type</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">application_config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="n">APP_NAME</span><span class="p">,</span> <span class="n">APP_DESCRIPTION</span><span class="p">,</span> <span class="n">config_entries</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The implementation of the <code class="docutils literal notranslate"><span class="pre">Application</span></code> class is placed into the <code class="docutils literal notranslate"><span class="pre">application.py</span></code> file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;The application module&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">itertools</span> <span class="k">as</span> <span class="nn">it</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">common.app</span> <span class="kn">import</span> <span class="n">ApplicationBase</span><span class="p">,</span> <span class="n">terminate</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">makeitem</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Make a random, hex value to be a payload&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">randsleep</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">caller</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Makes the caller to sleep for a randomly selected period between 1-3 seconds&quot;&quot;&quot;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">caller</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">caller</span><span class="si">}</span><span class="s2"> sleeping for </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">produce</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">queue</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Queue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Send randomly generated payloads into the `queue` randomly selected times between 1-5&quot;&quot;&quot;</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">it</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>  <span class="c1"># Synchronous loop for each single producer</span>
+        <span class="k">await</span> <span class="n">randsleep</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">caller</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Producer </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="k">await</span> <span class="n">makeitem</span><span class="p">()</span>
+        <span class="n">perf_counter</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+        <span class="k">await</span> <span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">item</span><span class="p">,</span> <span class="n">perf_counter</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Producer </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> added &lt;</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">&gt; to queue.&quot;</span><span class="p">)</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">consume</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">queue</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Queue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Consumes the&quot;&quot;&quot;</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">randsleep</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">caller</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Consumer </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">item</span><span class="p">,</span> <span class="n">perf_counter</span> <span class="o">=</span> <span class="k">await</span> <span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Consumer </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> got element &lt;</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; in </span><span class="si">{</span><span class="n">now</span><span class="o">-</span><span class="n">perf_counter</span><span class="si">:</span><span class="s2">0.5f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span>
+        <span class="p">)</span>
+        <span class="n">queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">Application</span><span class="p">(</span><span class="n">ApplicationBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Application class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">started</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts the application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;app starts&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">started</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shuts down the application</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;app shuts down&quot;</span><span class="p">)</span>
+
+        <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">started</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Program completed in </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">0.5f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">jobs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Jobs definition of the application.</span>
+
+<span class="sd">        It will create producers and consumers, that will communicate with each other via an async queue.</span>
+<span class="sd">        The producers will randomly select how many messages will send, with how long delay among the sendings.</span>
+
+<span class="sd">        This will run the producers, until they finish their work,</span>
+<span class="sd">        waits until the queue will be empty, then closes the consumers, finally it terminates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Create the async queue for communication</span>
+        <span class="n">queue</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+
+        <span class="c1"># Takes the command-line parameters to determine the number of producers and consumers</span>
+        <span class="n">nprod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NUM_PRODUCERS&quot;</span><span class="p">)</span>
+        <span class="n">ncon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NUM_CONSUMERS&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;jobs started with </span><span class="si">{</span><span class="n">nprod</span><span class="si">}</span><span class="s2"> producers and </span><span class="si">{</span><span class="n">ncon</span><span class="si">}</span><span class="s2"> consumers.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create the `nprod` number of producer and `ncon` number of consumer tasks</span>
+        <span class="n">producers</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">produce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">queue</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nprod</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">consumers</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">consume</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">queue</span><span class="p">))</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncon</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Make the tasks running</span>
+        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">producers</span><span class="p">)</span>
+
+        <span class="c1"># Implicitly awaits consumers</span>
+        <span class="k">await</span> <span class="n">queue</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+        <span class="c1"># Stops the consumers</span>
+        <span class="k">for</span> <span class="n">consumer</span> <span class="ow">in</span> <span class="n">consumers</span><span class="p">:</span>
+            <span class="n">consumer</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+
+        <span class="c1"># Terminate the application, the `stop()` will take care for closing the consumers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;jobs finished&quot;</span><span class="p">)</span>
+        <span class="n">terminate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The main entrypoint of the allplication is in the <code class="docutils literal notranslate"><span class="pre">main.py</span></code> file and it is this simple:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Producer-consumer tasks communicating via async queue.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">common.app</span> <span class="kn">import</span> <span class="n">application_entrypoint</span>
+<span class="kn">from</span> <span class="nn">common.examples.asyncq</span> <span class="kn">import</span> <span class="n">Application</span><span class="p">,</span> <span class="n">application_config</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;The main entry point of the application&quot;&quot;&quot;</span>
+    <span class="n">application_entrypoint</span><span class="p">(</span><span class="n">Application</span><span class="p">,</span> <span class="n">application_config</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>Start the application with some parameters:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python ./main.py -p <span class="m">2</span> -c <span class="m">3</span>
+<span class="go">2022-02-07 16:06:21.057 | INFO     | common.examples.asyncq.application:start:55 - app starts</span>
+<span class="go">2022-02-07 16:06:21.058 | INFO     | common.app.app_base:run:116 - Application.run: entering wait loop</span>
+<span class="go">2022-02-07 16:06:21.058 | INFO     | common.examples.asyncq.application:jobs:85 - jobs started with 2 producers and 3 consumers.</span>
+<span class="go">2022-02-07 16:06:21.058 | INFO     | common.examples.asyncq.application:randsleep:19 - Producer 0 sleeping for 2 seconds.</span>
+<span class="go">2022-02-07 16:06:21.058 | INFO     | common.examples.asyncq.application:randsleep:19 - Producer 1 sleeping for 3 seconds.</span>
+<span class="go">2022-02-07 16:06:21.058 | INFO     | common.examples.asyncq.application:randsleep:19 - Consumer 0 sleeping for 3 seconds.</span>
+<span class="go">2022-02-07 16:06:21.059 | INFO     | common.examples.asyncq.application:randsleep:19 - Consumer 1 sleeping for 2 seconds.</span>
+<span class="go">2022-02-07 16:06:21.059 | INFO     | common.examples.asyncq.application:randsleep:19 - Consumer 2 sleeping for 2 seconds.</span>
+<span class="go">2022-02-07 16:06:23.061 | INFO     | common.examples.asyncq.application:produce:31 - Producer 0 added &lt;4f3ae37c38&gt; to queue.</span>
+<span class="go">2022-02-07 16:06:23.062 | INFO     | common.examples.asyncq.application:consume:40 - Consumer 1 got element &lt;4f3ae37c38&gt; in 0.00161 seconds.</span>
+<span class="go">2022-02-07 16:06:23.063 | INFO     | common.examples.asyncq.application:randsleep:19 - Consumer 1 sleeping for 2 seconds.</span>
+<span class="go">2022-02-07 16:06:24.060 | INFO     | common.examples.asyncq.application:produce:31 - Producer 1 added &lt;2cbdbcab85&gt; to queue.</span>
+<span class="go">2022-02-07 16:06:24.060 | INFO     | common.examples.asyncq.application:randsleep:19 - Producer 1 sleeping for 3 seconds.</span>
+<span class="go">2022-02-07 16:06:24.061 | INFO     | common.examples.asyncq.application:consume:40 - Consumer 0 got element &lt;2cbdbcab85&gt; in 0.00176 seconds.</span>
+<span class="go">2022-02-07 16:06:24.062 | INFO     | common.examples.asyncq.application:randsleep:19 - Consumer 0 sleeping for 3 seconds.</span>
+<span class="go">2022-02-07 16:06:27.064 | INFO     | common.examples.asyncq.application:produce:31 - Producer 1 added &lt;0a0ae9301d&gt; to queue.</span>
+<span class="go">2022-02-07 16:06:27.065 | INFO     | common.examples.asyncq.application:consume:40 - Consumer 2 got element &lt;0a0ae9301d&gt; in 0.00117 seconds.</span>
+<span class="go">2022-02-07 16:06:27.065 | INFO     | common.examples.asyncq.application:randsleep:19 - Consumer 2 sleeping for 3 seconds.</span>
+<span class="go">2022-02-07 16:06:27.066 | INFO     | common.examples.asyncq.application:jobs:106 - jobs finished</span>
+<span class="go">2022-02-07 16:06:27.066 | INFO     | common.app.app_terminate:terminate:20 - Terminate the application</span>
+<span class="go">2022-02-07 16:06:27.067 | INFO     | common.examples.asyncq.application:stop:63 - app shuts down</span>
+<span class="go">2022-02-07 16:06:27.068 | INFO     | common.examples.asyncq.application:stop:66 - Program completed in 6.01020 seconds.</span>
+<span class="go">2022-02-07 16:06:27.069 | INFO     | common.app.app_base:_cancel_all_tasks:274 - Application._cancel_all_tasks: cancelling 0 tasks ...</span>
+<span class="go">2022-02-07 16:06:27.069 | INFO     | common.app.app_base:_stop:237 - Application._stop: closing event loop</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="minimum.html" class="btn btn-neutral float-left" title="A bare-minimum application" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../modules.html" class="btn btn-neutral float-right" title="Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, TomBenke.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
