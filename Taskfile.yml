@@ -56,6 +56,7 @@ tasks:
     desc: Build
     cmds:
       - task: clean
+      - rm dist/* -fr
       - VERSION={{.VERSION}} python -m build
 
   publish-package:
@@ -97,6 +98,7 @@ tasks:
     desc: Generate module documentation into the docs/ folder
     cmds:
       - task: install-dev-editable
+      - rm docs/* -fr
       - echo {{.VERSION}}
         #- PYTHONPATH=. sphinx-autogen docs_src/modules.rst
       - sphinx-apidoc -o docs_src/modules common common/*/tests/ -e -f -M
@@ -108,5 +110,4 @@ tasks:
     cmds:
       - rm .coverage -f
       - rm htmlcov -fr
-      - rm docs/* -fr
 
