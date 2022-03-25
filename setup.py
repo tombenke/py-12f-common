@@ -23,7 +23,6 @@ REQUIRED = [
     "dataclasses",
     "python-dotenv",
     "loguru",
-    "typing",
 ]
 
 DEV_REQUIREMENTS = [
@@ -36,6 +35,7 @@ DEV_REQUIREMENTS = [
     "pylint",
     "sphinx >= 4.4.0",
     "sphinx-rtd-theme",
+    "twine",
 ]
 
 setup(
