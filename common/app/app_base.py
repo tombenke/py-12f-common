@@ -7,7 +7,6 @@ The application base class [1]_.
 """
 from abc import ABC, abstractmethod
 import asyncio
-from typing import Dict, Optional, Any
 from ..logger.logger import init_logger
 from .signals import DelayedKeyboardInterrupt, add_term_signal_handler
 from .app_terminate import terminate
@@ -61,9 +60,9 @@ class ApplicationBase(ABC):
         It creates an internal event-loop, that will be used to create and run the application's
         internal services, tasks.
         """
-        self._loop = None  # type: Optional[asyncio.AbstractEventLoop]
-        self._wait_event = None  # type: Optional[asyncio.Event]
-        self._wait_task = None  # type: Optional[asyncio.Task]
+        self._loop = None
+        self._wait_event = None
+        self._wait_task = None
         self.logger = init_logger(config.get("LOG_LEVEL"), config.get("LOG_FORMAT"))
         self.config = config
 
@@ -205,7 +204,7 @@ class ApplicationBase(ABC):
         # }
         #
 
-        def __loop_exception_handler(_, context: Dict[str, Any]):
+        def __loop_exception_handler(_, context):
             if isinstance(context["exception"], ConnectionResetError):
                 self.logger.info(
                     "Application._stop.__loop_exception_handler: suppressing ConnectionResetError"

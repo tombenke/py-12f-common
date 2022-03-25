@@ -2,20 +2,16 @@
 The boilerplate implementation of an application
 """
 import sys
-from typing import Type
 from common.config import Config
-from .app_base import ApplicationBase
 
 
-def application_entrypoint(
-    application_class: Type[ApplicationBase], config: Config, argv=None
-):
+def application_entrypoint(application_class, config: Config, argv=None):
     """
     The main entry point of the application.
 
     This is a built-in implementation of a typical application.
 
-    :param Type[ApplicationBase] application_class: The type of the Application class,
+    :param application_class: The type of the Application class,
         that origins from the ``ApplicationBase``.
 
     :param Config config: the default configuration object, with environment values applied to it.

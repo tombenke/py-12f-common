@@ -1,5 +1,4 @@
 """Test the application module"""
-import asyncio
 import unittest
 from common.app import ApplicationBase, application_entrypoint, terminate
 from common.config import Config

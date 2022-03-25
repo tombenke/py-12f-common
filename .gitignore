@@ -52,3 +52,4 @@ docs/_build/
 .env
 _env
 .vscode
+venv
