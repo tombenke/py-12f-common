@@ -3,7 +3,7 @@ This sub-module holds the classes for the configuration management.
 
 The ``Config`` class plays the central role. It uses az array of ``ConfigEntry`` instances to
 define the list of config parameters, incl. their names and default values.
-Each ``ConfigEntry`` has its own ``CliEntry`` property, which describes the comman-line related
+Each ``ConfigEntry`` has its own ``CliEntry`` property, which describes the command-line related
 counterparts of the config parameters.
 
 This module is responsible for giving default values to the config parameters,
@@ -16,13 +16,20 @@ The precedence is the following, in ascending order (command-line is the stronge
 
 """
 import argparse
-from dataclasses import dataclass, astuple
 import os
 import re
+import json
 import dotenv
 
 
-@dataclass
+def json_string(string):
+    """
+    Converts a JSON format string to Python value.
+    Can be used as `entry_type` parameter of the `CliEntry` object.
+    """
+    return json.loads(string)
+
+
 class CliEntry:
     """
     It is the command-line entry descriptor data-class.
@@ -50,29 +57,49 @@ class CliEntry:
     name: str
     """Defines the name of an optional command-line argument, for example: ``--file-name``"""
 
-    entry_type: type = str
+    entry_type: type
     """
     The type of the argument, e.g. ``int``, ``float``.
     See also: `the argparse docs / type <https://docs.python.org/3/library/argparse.html#type>`_
     """
 
-    action: str = "store"
+    action: str
     """
-    It specifies how the comman-line argument should be handled.
+    It specifies how the command-line argument should be handled.
     See also: `the argparse docs / action <https://docs.python.org/3/library/argparse.html#action>`_
     """
 
-    choices: list = None
+    choices: list
     """The list of possible choices, in case the value can be chosen from a predefined set."""
+
+    def __init__(
+        self, short_flag=None, name=None, entry_type=str, action="store", choices=None
+    ):
+        self.short_flag = short_flag
+        self.name = name
+        self.entry_type = entry_type
+        self.action = action
+        self.choices = choices
 
     def __iter__(self):
         """
         Return with an iterable collection of the object properties
         """
-        return iter(astuple(self))
+        return iter(self.__dict__)
+
+    def __str__(self):
+        """
+        Returns the object in string format
+        """
+        return (
+            f'CliEntry(short_flag="{self.short_flag}", '
+            'name="{self.name}", '
+            "entry_type={self.entry_type}, "
+            'action="{self.action}", '
+            "choices={self.choices})"
+        )
 
 
-@dataclass
 class ConfigEntry:
     """
     Config parameter descriptor data-class
@@ -97,13 +124,13 @@ class ConfigEntry:
     It should be ALL-CAPS.
     """
 
-    help_text: str = ""
+    help_text: str
     """
     The short description of the config parameter, that will be displayed to the console
     when the ``--help`` switch is used for the application.
     """
 
-    default: str = ""
+    default: str
     """
     The default value of the config parameter.
 
@@ -111,7 +138,7 @@ class ConfigEntry:
     environment variable with the same name, if exists and/or the command-line parameter.
     """
 
-    cli: CliEntry = None
+    cli: CliEntry
     """
     The definition of the command-line argument entry, if there is any.
 
@@ -120,14 +147,25 @@ class ConfigEntry:
     of the corresponding config parameter, using the built-in default value, then applying the environment variable.
     """
 
+    def __init__(self, name=None, help_text="", default=None, cli=None):
+        self.name = name
+        self.help_text = help_text
+        self.default = default
+        self.cli = cli
+
     def __iter__(self):
         """
         Return with an iterable collection of the object properties
         """
-        return iter(astuple(self))
+        return iter(self.__dict__)
+
+    def __str__(self):
+        """
+        Returns the object in string format
+        """
+        return f'ConfigEntry(name="{self.name}", help_text="{self.help_text}", default="{self.default}", cli={self.cli})'
 
 
-@dataclass
 class Config:
     """
     Configuration class that represent the actual config parameter set of the application.
@@ -157,8 +195,9 @@ class Config:
         dotenv.load_dotenv(".env")
 
         for config_entry in config_entries:
-            (name, _, default, _) = config_entry
-            self.__dict__[name] = os.environ.get(name, default)
+            self.__dict__[config_entry.name] = os.environ.get(
+                config_entry.name, config_entry.default
+            )
 
     def apply_parameters(self, parameters):
         """
@@ -208,10 +247,18 @@ class Config:
 
         # Build the CLI args parser
         for config_entry in self.config_entries:
-            (name, help_text, _, cli) = config_entry
+            name = config_entry.name
+            help_text = config_entry.help_text
+            cli = config_entry.cli
             default = self.__dict__[name]
+
             if cli is not None:
-                (short_flag, name, entry_type, action, choices) = cli
+                short_flag = cli.short_flag
+                name = cli.name
+                entry_type = cli.entry_type
+                action = cli.action
+                choices = cli.choices
+
                 if action in ["store_false", "store_true"]:
                     # It is a boolean flag
                     if short_flag is None:
@@ -277,12 +324,12 @@ class Config:
         results = {}
         for config_entry in self.config_entries:
             # Take the original entry name
-            (entry_name, _, _, cli) = config_entry
+            entry_name = config_entry.name
+            cli = config_entry.cli
 
             if cli is not None:
                 # Take the parameter value of the CLI arg
-                (_, name_or_flag, _, _, _) = cli
-                name = re.sub(r"^--", "", name_or_flag).replace("-", "_")
+                name = re.sub(r"^--", "", cli.name).replace("-", "_")
 
                 # Add the value to the results with the original name
                 results[entry_name] = args[name]
@@ -295,8 +342,13 @@ class Config:
         """
         print("\nConfig:")
         for config_entry in self.config_entries:
-            (name, _, _, _) = config_entry
-            print(f"  {name}: '{self.__dict__[name]}'")
+            name = config_entry.name
+            value = self.__dict__[name]
+            value_type = type(value)
+            if value_type == str:
+                print(f'  {name}: "{value}" {value_type}')
+            else:
+                print(f"  {name}: {value} {value_type}")
 
     def __str__(self):
         """
