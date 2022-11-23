@@ -23,6 +23,7 @@ REQUIRED = [
     "dataclasses",
     "python-dotenv",
     "loguru",
+    "flask",
 ]
 
 DEV_REQUIREMENTS = [
