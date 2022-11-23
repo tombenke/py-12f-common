@@ -10,6 +10,7 @@ test_set_input = dict(
     LOG_FORMAT="text",
     INTEGER="55",
     FLOAT="3.1415",
+    DUMP_CONFIG="True",
     JSON_STRING_ARRAY='["first","second","third"]',
     JSON_OBJECT='{"id": 42,"label":"The Universe"}',
 )
@@ -30,17 +31,39 @@ APP_NAME = "an-application"
 APP_DESCRIPTION = """The description of the application..."""
 
 
+test_defaults = dict(
+    LOG_LEVEL="info",
+    LOG_FORMAT="text",
+    INTEGER="0",
+    FLOAT="0.0",
+    NO_SHORT_FLAG="False",
+    DUMP_CONFIG="False",
+    JSON_STRING_ARRAY='["first", "second", "third"]',
+    JSON_OBJECT="{}",
+)
+
+test_defaults_exp = dict(
+    LOG_LEVEL="info",
+    LOG_FORMAT="text",
+    INTEGER=0,
+    FLOAT=0.0,
+    NO_SHORT_FLAG=False,
+    DUMP_CONFIG=False,
+    JSON_STRING_ARRAY=["first", "second", "third"],
+    JSON_OBJECT={},
+)
+
 config_entries = [
     ConfigEntry(
         name="LOG_LEVEL",
         help_text=f"Log level {get_level_choices()}",
-        default="info",
+        default=test_defaults["LOG_LEVEL"],
         cli=CliEntry(short_flag="-l", name="--log-level", choices=get_level_choices()),
     ),
     ConfigEntry(
         name="LOG_FORMAT",
         help_text=f"The format of the log messages {get_format_choices()}",
-        default="text",
+        default=test_defaults["LOG_FORMAT"],
         cli=CliEntry(
             short_flag="-f", name="--log-format", choices=get_format_choices()
         ),
@@ -48,7 +71,7 @@ config_entries = [
     ConfigEntry(
         name="NO_SHORT_FLAG",
         help_text="No short flag for this parameter",
-        default="False",
+        default=test_defaults["NO_SHORT_FLAG"],
         cli=CliEntry(
             short_flag=None,
             name="--no-short-flag",
@@ -59,7 +82,7 @@ config_entries = [
     ConfigEntry(
         name="DUMP_CONFIG",
         help_text="Dump the actual configuration parameters of the application",
-        default="False",
+        default=test_defaults["DUMP_CONFIG"],
         cli=CliEntry(
             # short_flag="-d",
             short_flag=None,
@@ -71,19 +94,19 @@ config_entries = [
     ConfigEntry(
         name="INTEGER",
         help_text="An integer number",
-        default="0",
+        default=test_defaults["INTEGER"],
         cli=CliEntry(short_flag="-i", name="--integer", entry_type=int),
     ),
     ConfigEntry(
         name="FLOAT",
         help_text="A float number",
-        default="0.",
+        default=test_defaults["FLOAT"],
         cli=CliEntry(short_flag="-r", name="--float", entry_type=float),
     ),
     ConfigEntry(
         name="JSON_STRING_ARRAY",
         help_text="This is a JSON format array or strings",
-        default='["first", "second", "third"]',
+        default=test_defaults["JSON_STRING_ARRAY"],
         cli=CliEntry(
             short_flag=None, name="--json-string-array", entry_type=json_string
         ),
@@ -91,26 +114,20 @@ config_entries = [
     ConfigEntry(
         name="JSON_OBJECT",
         help_text="This is a JSON format object",
-        default="{}",
+        default=test_defaults["JSON_OBJECT"],
         cli=CliEntry(short_flag=None, name="--json-object", entry_type=json_string),
     ),
 ]
 
 
-def assert_with_defaults(test_case, config):
-    """Assert the config parameters against the default values"""
-    for config_entry in config_entries:
-        test_case.assertEqual(config.__dict__[config_entry.name], config_entry.default)
-
-
 def assert_with_expected(test_case, config, ref):
     """Assert the config parameters against the expected values"""
     for prop_name in ref:
-        test_case.assertEqual(config.__dict__[prop_name], ref[prop_name])
+        test_case.assertEqual(ref[prop_name], config.__dict__[prop_name])
 
 
 class ConfigTestCase(unittest.TestCase):
-    "The config test cases"
+    """The config test cases"""
 
     def test_config_via_apply_parameters(self) -> None:
         """Test the apply_parameters to config"""
@@ -122,13 +139,14 @@ class ConfigTestCase(unittest.TestCase):
         """Test the config via env variables"""
 
         # The configuration object is usually a module-level singleton
+        # test default setting
         config = Config(APP_NAME, APP_DESCRIPTION, config_entries)
-        assert_with_defaults(self, config)
+        assert_with_expected(self, config, test_defaults_exp)
 
         # setup the environment
         os.environ.update(test_set_input)
         config = Config(APP_NAME, APP_DESCRIPTION, config_entries)
-        assert_with_expected(self, config, test_set_input)
+        assert_with_expected(self, config, test_set_expected)
 
     def test_config_via_argv(self) -> None:
         """Test the config via parsing the CLI arguments"""

@@ -21,6 +21,7 @@ import re
 import json
 import dotenv
 
+TRUTHY_VALUES = ["true", 1, "yes"]
 
 def json_string(string):
     """
@@ -181,7 +182,7 @@ class Config:
 
         :param str app_description: The short description of the application.
 
-        :param Array[ConfigEntry] config_entries: The array of the definitions of config entries.
+        :param List[ConfigEntry] config_entries: The array of the definitions of config entries.
 
         It fills the object with the properties given by the `config_entries` argument.
         It also sets the initial value of each parameter from the environment, if it is found
@@ -195,9 +196,19 @@ class Config:
         dotenv.load_dotenv(".env")
 
         for config_entry in config_entries:
-            self.__dict__[config_entry.name] = os.environ.get(
-                config_entry.name, config_entry.default
-            )
+            config_entry_value = os.environ.get(config_entry.name, config_entry.default)
+
+            # Parse the boolean configs, the others will be parsed with the arg parser
+            if config_entry.cli:
+                if config_entry.cli.entry_type == bool:
+                    if isinstance(config_entry_value, str):
+                        config_entry_value = config_entry_value.lower() in TRUTHY_VALUES
+                    else:
+                        config_entry_value = False
+
+            self.__dict__[config_entry.name] = config_entry_value
+
+        self.apply_cli_args([])
 
     def apply_parameters(self, parameters):
         """
@@ -217,7 +228,7 @@ class Config:
         Take the actual CLI parameters according to the definitions in `self.config_entries`
         parse them, and apply them to the actual properties of the config object.
 
-        :param Array[str] argv: The command line parameters.
+        :param List[str] argv: The command line parameters.
         """
         args = self.get_the_cli_args(argv)
         self.apply_parameters(args)
@@ -239,7 +250,7 @@ class Config:
         """
         Parse the CLI parameters, and returns with them as a dictionary
 
-        :param Array[str] argv: The command-line parameters
+        :param List[str] argv: The command-line parameters
         """
         parser = argparse.ArgumentParser(
             prog=self.app_name, description=self.app_description
