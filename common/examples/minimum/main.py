@@ -31,6 +31,17 @@ config_entries = [
             short_flag="-d", name="--dump-config", entry_type=bool, action="store_true"
         ),
     ),
+    ConfigEntry(
+        name="HEALTH_CHECK",
+        help_text="Enable to run health check web service with '/health' endpoint",
+        default=False,
+        cli=CliEntry(
+            short_flag="-hc",
+            name="--health-check",
+            entry_type=bool,
+            action="store_true",
+        ),
+    ),
 ]
 
 application_config = Config(APP_NAME, APP_DESCRIPTION, config_entries)

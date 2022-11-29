@@ -65,6 +65,7 @@ class ApplicationBase(ABC):
         self._wait_task = None
         self.logger = init_logger(config.get("LOG_LEVEL"), config.get("LOG_FORMAT"))
         self.config = config
+        self.health_check = None
 
     async def jobs(self):
         """
@@ -78,7 +79,7 @@ class ApplicationBase(ABC):
 
         1. Starts the internal services, defined by the ``start()`` member function.
         2. Executes the ``jobs()`` member function.
-        3. Enters the internal event processing execution loop, and wait until either a
+        3. Enters the internal event processing execution loop, and wait until either
            an unhandled interruption occur, or the application receives a signal for stopping.
         4. Shuts down the internal services according to the implementation of the ``stop()`` function.
         5. Exits.
@@ -149,7 +150,21 @@ class ApplicationBase(ABC):
         This is an abstract member function that the subclass of ApplicationBase class must implement.
         """
 
+    # pylint: disable=import-outside-toplevel
     def _start(self):
+        """
+        Start health check web service if it is required and then run the application
+        """
+        if self.config.get("HEALTH_CHECK"):
+            # The HealthCheck import must be here (after/in the 'with DelayedKeyboardInterrupt(self.logger)' line) so
+            # that KeyboardInterrupt can be handled during start
+            from .health_check import HealthCheck
+
+            self.health_check = HealthCheck(
+                self.logger, self.config.app_name, self.config.get("HEALTH_CHECK_PORT")
+            )
+            self._loop.run_until_complete(self.health_check.run_server())
+
         self._loop.run_until_complete(self.start())
 
     def _stop(self):

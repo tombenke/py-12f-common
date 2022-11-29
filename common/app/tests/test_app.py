@@ -24,7 +24,7 @@ class TestApplication(ApplicationBase):
 
 
 class ApplicationTestCase(unittest.IsolatedAsyncioTestCase):
-    "The Application test cases"
+    """The Application test cases"""
 
     def test_application_start_stop(self) -> None:
         """Test the starting and stopping of an application"""

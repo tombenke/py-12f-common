@@ -1,10 +1,15 @@
 """
-Health check
+Health check module. It runs a web service on localhost and the specified port. The health state of the application can
+be queried at the 'health' end point.
+
+
+The implementation of health check response is based on 'Health Check Response Format for HTTP APIs'
+(https://datatracker.ietf.org/doc/html/draft-inadarei-api-health-check-06)
 """
 from enum import Enum
 from typing import List
 
-from flask import Flask
+from aiohttp import web
 
 
 class State(Enum):
@@ -12,7 +17,6 @@ class State(Enum):
     Possible microservice states
     """
 
-    STOP = "Stopped"
     WARMUP = "Warming up"
     WORK = "Working"
     SHUTDOWN = "Shutting down"
@@ -49,7 +53,8 @@ class Response:
         return {
             "status": self.status.value,
             "notes": self.notes,
-            "description": f"Health state of '{self.service_name}' microservice",
+            "serviceId": "get-health",
+            "description": f"Returns the health of the '{self.service_name}' service",
         }
 
 
@@ -74,7 +79,7 @@ class Fail(Response):
 
     status = Status.FAIL
     status_code = 503
-    notes = ["Service is not running"]
+    notes = ["No information about the service"]
 
 
 # pylint: disable=too-few-public-methods
@@ -87,48 +92,67 @@ class Warn(Response):
 
     status = Status.WARN
     status_code = 203
-    notes = ["Service is not healthy"]
+    notes = ["Service is not healthy, it is warming up or shutting down"]
 
 
 class HealthCheck:
     """
-    Class for running api server to access the health endpoint
+    Class for running web service to access the 'health' endpoint
     """
 
-    def __init__(self, service_name: str, port=5000):
+    def __init__(self, logger, service_name: str, port=5000):
+        self.logger = logger
         self.service_name = service_name
         self.port = port
         self.service_state = State.NOINFO
 
-        self.app = Flask(__name__)
-        self.app.add_url_rule("/health", "health", self.health)
+        self.app = web.Application()
+        self.app.router.add_get("/health", self.health)
 
-    def start_server(self):
+    async def health(self, _msg):
         """
-        Start the api server
-        """
-        self.app.run(port=self.port)
-
-    def set_service_state(self, state: State):
-        """
-        Sets the service state
-        """
-        self.service_state = state
-
-    def health(self):
-        """
-        Health check endpoint
+        Handler for the health check endpoint. The response is in JSON format.
         """
         if self.service_state == State.WORK:
             resp = Pass(self.service_name)
-        elif self.service_state == State.STOP:
+        elif self.service_state == State.NOINFO:
             resp = Fail(self.service_name)
         else:
             resp = Warn(self.service_name)
 
-        return resp.create_response, resp.status_code
+        return web.json_response(resp.create_response, status=resp.status_code)
 
+    async def run_server(self):
+        """
+        Run the web service on localhost and the specified port
+        """
+        runner = web.AppRunner(self.app)
+        await runner.setup()
+        site = web.TCPSite(runner, "localhost", port=self.port)
+        await site.start()
 
-if __name__ == "__main__":
-    hc = HealthCheck("sth", 5000)
-    hc.start_server()
+        self.logger.info(f"Health check serving on http://127.0.0.1:{self.port}/health")
+
+    def set_state_warm_up(self):
+        """
+        Set the service state to "Warming up"
+        """
+        self.service_state = State.WARMUP
+
+    def set_state_working(self):
+        """
+        Set the service state to "Working"
+        """
+        self.service_state = State.WORK
+
+    def set_state_shut_down(self):
+        """
+        Set the service state to "Shutting down"
+        """
+        self.service_state = State.SHUTDOWN
+
+    def set_state_no_info(self):
+        """
+        Set the service state to "No information"
+        """
+        self.service_state = State.NOINFO
