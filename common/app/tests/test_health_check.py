@@ -1,12 +1,8 @@
 """Test the application module"""
-import asyncio
 import unittest
 import requests
 from common.app import ApplicationBase, application_entrypoint, terminate
 from common.config import Config, ConfigEntry, CliEntry
-
-
-test_fun_called = asyncio.Future()  # The test will run until this future set
 
 
 class TestApplication(ApplicationBase):
