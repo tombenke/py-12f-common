@@ -135,24 +135,24 @@ class HealthCheck:
 
     def set_state_warm_up(self):
         """
-        Set the service state to "Warming up"
+        Set the service state to 'Warming up'
         """
         self.service_state = State.WARMUP
 
     def set_state_working(self):
         """
-        Set the service state to "Working"
+        Set the service state to 'Working'
         """
         self.service_state = State.WORK
 
     def set_state_shut_down(self):
         """
-        Set the service state to "Shutting down"
+        Set the service state to 'Shutting down'
         """
         self.service_state = State.SHUTDOWN
 
     def set_state_no_info(self):
         """
-        Set the service state to "No information"
+        Set the service state to 'No information'
         """
         self.service_state = State.NOINFO

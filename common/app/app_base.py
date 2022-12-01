@@ -65,7 +65,7 @@ class ApplicationBase(ABC):
         self._wait_task = None
         self.logger = init_logger(config.get("LOG_LEVEL"), config.get("LOG_FORMAT"))
         self.config = config
-        self.health_check = None
+        self.health_check = HealthCheckMock(self.logger)
 
     async def jobs(self):
         """
@@ -311,3 +311,36 @@ class ApplicationBase(ABC):
                         "task": task,
                     }
                 )
+
+
+class HealthCheckMock:
+    """
+    Mock class of HealthCheck to swallow the set_state_* calls
+    """
+
+    def __init__(self, logger):
+        self.logger = logger
+
+    def set_state_warm_up(self):
+        """Mock set_state_warm_up method"""
+        self.logger.warning(
+            "An attempt was made to set service state but health check is not running"
+        )
+
+    def set_state_working(self):
+        """Mock set_state_working method"""
+        self.logger.warning(
+            "An attempt was made to set service state but health check is not running"
+        )
+
+    def set_state_shut_down(self):
+        """Mock set_state_shut_down method"""
+        self.logger.warning(
+            "An attempt was made to set service state but health check is not running"
+        )
+
+    def set_state_no_info(self):
+        """Mock set_state_no_info method"""
+        self.logger.warning(
+            "An attempt was made to set service state but health check is not running"
+        )
