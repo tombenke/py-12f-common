@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 import asyncio
 from ..logger.logger import init_logger
 from .signals import DelayedKeyboardInterrupt, add_term_signal_handler
-from .app_terminate import terminate
+from .app_terminate import terminate, TerminalException
 
 
 class ApplicationBase(ABC):
@@ -118,6 +118,14 @@ class ApplicationBase(ABC):
             self.logger.info("Application.run: exiting wait loop")
 
         # Any unhandled exception occurs, the application will terminate
+        # Log all exceptions except TerminalException
+        except TerminalException:
+            # The stop() is also shielded from termination.
+            try:
+                with DelayedKeyboardInterrupt(self.logger):
+                    self._stop()
+            except KeyboardInterrupt:
+                self.logger.info("Application.run: got KeyboardInterrupt during stop")
         except BaseException as err:
             # The stop() is also shielded from termination.
             try:
@@ -299,7 +307,7 @@ class ApplicationBase(ABC):
             task.cancel()
 
         self._loop.run_until_complete(
-            asyncio.tasks.gather(*to_cancel, loop=self._loop, return_exceptions=True)
+            asyncio.tasks.gather(*to_cancel, return_exceptions=True)
         )
 
         for task in to_cancel:
