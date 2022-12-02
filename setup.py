@@ -24,6 +24,7 @@ REQUIRED = [
     "python-dotenv",
     "loguru",
     "aiohttp",
+    "requests",
 ]
 
 DEV_REQUIREMENTS = [
