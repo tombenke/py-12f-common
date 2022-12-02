@@ -117,10 +117,11 @@ class ApplicationBase(ABC):
             self._wait()
             self.logger.info("Application.run: exiting wait loop")
 
-        # Any unhandled exception occures, the application will terminate
-        except BaseException:
+        # Any unhandled exception occurs, the application will terminate
+        except BaseException as err:
             # The stop() is also shielded from termination.
             try:
+                self.logger.opt(exception=True).error(f"An error occurred, application shuts down: {err}")
                 with DelayedKeyboardInterrupt(self.logger):
                     self._stop()
             except KeyboardInterrupt:
