@@ -121,7 +121,9 @@ class ApplicationBase(ABC):
         except BaseException as err:
             # The stop() is also shielded from termination.
             try:
-                self.logger.opt(exception=True).error(f"An error occurred, application shuts down: {err}")
+                self.logger.opt(exception=True).error(
+                    f"An error occurred, application shuts down: {err}"
+                )
                 with DelayedKeyboardInterrupt(self.logger):
                     self._stop()
             except KeyboardInterrupt:
