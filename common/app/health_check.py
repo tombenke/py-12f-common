@@ -91,7 +91,7 @@ class Warn(Response):
     """
 
     status = Status.WARN
-    status_code = 203
+    status_code = 202
     notes = ["Service is not healthy, it is warming up or shutting down"]
 
 
