@@ -20,8 +20,8 @@ You can use pip to install the library from the
 For further information read [the documentation](https://tombenke.github.io/py-12f-common/).
 
 ### Health check
-Health check is a web service running on localhost, on the configured port and can be called with `GET` on `/health` 
-endpoint. It is responsible for providing information about the application state.
+Health check is a web service running on localhost, on the configured port and can be called with HTTP GET request on 
+`/health` endpoint. It is responsible for providing information about the application state.
 
 It complies with the Kubernetes health check guidelines. The response is compiled according to 
 [Health Check Response Format for HTTP APIs](https://datatracker.ietf.org/doc/html/draft-inadarei-api-health-check-06).
