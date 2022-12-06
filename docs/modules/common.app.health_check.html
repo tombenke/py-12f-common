@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>common.app.health_check module &mdash; py-12f-common v0.5.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="common.app.signals module" href="common.app.signals.html" />
+    <link rel="prev" title="common.app.app_terminate module" href="common.app.app_terminate.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> py-12f-common
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">common</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="common.html">common package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="common.html#subpackages">Subpackages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">py-12f-common</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">Modules</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">common</a></li>
+          <li class="breadcrumb-item"><a href="common.html">common package</a></li>
+          <li class="breadcrumb-item"><a href="common.app.html">common.app package</a></li>
+      <li class="breadcrumb-item active">common.app.health_check module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/common.app.health_check.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-common.app.health_check">
+<span id="common-app-health-check-module"></span><h1>common.app.health_check module<a class="headerlink" href="#module-common.app.health_check" title="Permalink to this heading"></a></h1>
+<p>Health check module. It runs a web service on localhost and the specified port. The health state of the application can
+be queried at the ‘health’ end point.</p>
+<p>The implementation of health check response is based on ‘Health Check Response Format for HTTP APIs’
+(<a class="reference external" href="https://datatracker.ietf.org/doc/html/draft-inadarei-api-health-check-06">https://datatracker.ietf.org/doc/html/draft-inadarei-api-health-check-06</a>)</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="common.app.health_check.State">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.app.health_check.</span></span><span class="sig-name descname"><span class="pre">State</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.State" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Possible microservice states</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.State.WARMUP">
+<span class="sig-name descname"><span class="pre">WARMUP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Warming</span> <span class="pre">up'</span></em><a class="headerlink" href="#common.app.health_check.State.WARMUP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.State.WORK">
+<span class="sig-name descname"><span class="pre">WORK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Working'</span></em><a class="headerlink" href="#common.app.health_check.State.WORK" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.State.SHUTDOWN">
+<span class="sig-name descname"><span class="pre">SHUTDOWN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Shutting</span> <span class="pre">down'</span></em><a class="headerlink" href="#common.app.health_check.State.SHUTDOWN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.State.NOINFO">
+<span class="sig-name descname"><span class="pre">NOINFO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'No</span> <span class="pre">information'</span></em><a class="headerlink" href="#common.app.health_check.State.NOINFO" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="common.app.health_check.Status">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.app.health_check.</span></span><span class="sig-name descname"><span class="pre">Status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.Status" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Possible statuses the api can return</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Status.PASS">
+<span class="sig-name descname"><span class="pre">PASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pass'</span></em><a class="headerlink" href="#common.app.health_check.Status.PASS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Status.FAIL">
+<span class="sig-name descname"><span class="pre">FAIL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'fail'</span></em><a class="headerlink" href="#common.app.health_check.Status.FAIL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Status.WARN">
+<span class="sig-name descname"><span class="pre">WARN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'warn'</span></em><a class="headerlink" href="#common.app.health_check.Status.WARN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="common.app.health_check.Response">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.app.health_check.</span></span><span class="sig-name descname"><span class="pre">Response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.Response" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parent class of different responses</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Response.status">
+<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#common.app.health_check.Status" title="common.app.health_check.Status"><span class="pre">Status</span></a></em><a class="headerlink" href="#common.app.health_check.Response.status" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Response.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#common.app.health_check.Response.notes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.health_check.Response.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.Response.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="common.app.health_check.Response.create_response">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_response</span></span><a class="headerlink" href="#common.app.health_check.Response.create_response" title="Permalink to this definition"></a></dt>
+<dd><p>Composes the response to an http request</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="common.app.health_check.Pass">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.app.health_check.</span></span><span class="sig-name descname"><span class="pre">Pass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.Pass" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#common.app.health_check.Response" title="common.app.health_check.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a></p>
+<p>Response of passed status.
+For “pass” status, HTTP response code in the 2xx-3xx range MUST be used.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Pass.status">
+<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#common.app.health_check.Status" title="common.app.health_check.Status"><span class="pre">Status</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pass'</span></em><a class="headerlink" href="#common.app.health_check.Pass.status" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Pass.status_code">
+<span class="sig-name descname"><span class="pre">status_code</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">200</span></em><a class="headerlink" href="#common.app.health_check.Pass.status_code" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Pass.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Service</span> <span class="pre">is</span> <span class="pre">running']</span></em><a class="headerlink" href="#common.app.health_check.Pass.notes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="common.app.health_check.Fail">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.app.health_check.</span></span><span class="sig-name descname"><span class="pre">Fail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.Fail" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#common.app.health_check.Response" title="common.app.health_check.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a></p>
+<p>Response of failed status.
+For “fail” status, HTTP response code in the 4xx-5xx range MUST be used.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Fail.status">
+<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#common.app.health_check.Status" title="common.app.health_check.Status"><span class="pre">Status</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'fail'</span></em><a class="headerlink" href="#common.app.health_check.Fail.status" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Fail.status_code">
+<span class="sig-name descname"><span class="pre">status_code</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">503</span></em><a class="headerlink" href="#common.app.health_check.Fail.status_code" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Fail.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['No</span> <span class="pre">information</span> <span class="pre">about</span> <span class="pre">the</span> <span class="pre">service']</span></em><a class="headerlink" href="#common.app.health_check.Fail.notes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="common.app.health_check.Warn">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.app.health_check.</span></span><span class="sig-name descname"><span class="pre">Warn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.Warn" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#common.app.health_check.Response" title="common.app.health_check.Response"><code class="xref py py-class docutils literal notranslate"><span class="pre">Response</span></code></a></p>
+<p>Response of warning status.
+In case of the “warn” status, endpoints MUST return HTTP status in the 2xx-3xx range, and additional information
+SHOULD be provided, utilizing optional fields of the response.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Warn.status">
+<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#common.app.health_check.Status" title="common.app.health_check.Status"><span class="pre">Status</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'warn'</span></em><a class="headerlink" href="#common.app.health_check.Warn.status" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Warn.status_code">
+<span class="sig-name descname"><span class="pre">status_code</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">202</span></em><a class="headerlink" href="#common.app.health_check.Warn.status_code" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="common.app.health_check.Warn.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Service</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">healthy,</span> <span class="pre">it</span> <span class="pre">is</span> <span class="pre">warming</span> <span class="pre">up</span> <span class="pre">or</span> <span class="pre">shutting</span> <span class="pre">down']</span></em><a class="headerlink" href="#common.app.health_check.Warn.notes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="common.app.health_check.HealthCheck">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.app.health_check.</span></span><span class="sig-name descname"><span class="pre">HealthCheck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8080</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.HealthCheck" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for running web service to access the ‘health’ endpoint</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.health_check.HealthCheck.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8080</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.HealthCheck.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.health_check.HealthCheck.health">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">health</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.HealthCheck.health" title="Permalink to this definition"></a></dt>
+<dd><p>Handler for the health check endpoint. The response is in JSON format.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.health_check.HealthCheck.run_server">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.HealthCheck.run_server" title="Permalink to this definition"></a></dt>
+<dd><p>Run the web service on localhost and the specified port</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.health_check.HealthCheck.set_state_warm_up">
+<span class="sig-name descname"><span class="pre">set_state_warm_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.HealthCheck.set_state_warm_up" title="Permalink to this definition"></a></dt>
+<dd><p>Set the service state to ‘Warming up’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.health_check.HealthCheck.set_state_working">
+<span class="sig-name descname"><span class="pre">set_state_working</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.HealthCheck.set_state_working" title="Permalink to this definition"></a></dt>
+<dd><p>Set the service state to ‘Working’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.health_check.HealthCheck.set_state_shut_down">
+<span class="sig-name descname"><span class="pre">set_state_shut_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.HealthCheck.set_state_shut_down" title="Permalink to this definition"></a></dt>
+<dd><p>Set the service state to ‘Shutting down’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.health_check.HealthCheck.set_state_no_info">
+<span class="sig-name descname"><span class="pre">set_state_no_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.health_check.HealthCheck.set_state_no_info" title="Permalink to this definition"></a></dt>
+<dd><p>Set the service state to ‘No information’</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="common.app.app_terminate.html" class="btn btn-neutral float-left" title="common.app.app_terminate module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="common.app.signals.html" class="btn btn-neutral float-right" title="common.app.signals module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, TomBenke.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

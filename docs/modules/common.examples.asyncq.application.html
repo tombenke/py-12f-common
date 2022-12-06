@@ -14,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -69,13 +71,13 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../modules.html">Modules</a> &raquo;</li>
-          <li><a href="modules.html">common</a> &raquo;</li>
-          <li><a href="common.html">common package</a> &raquo;</li>
-          <li><a href="common.examples.html">common.examples package</a> &raquo;</li>
-          <li><a href="common.examples.asyncq.html">common.examples.asyncq package</a> &raquo;</li>
-      <li>common.examples.asyncq.application module</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">Modules</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">common</a></li>
+          <li class="breadcrumb-item"><a href="common.html">common package</a></li>
+          <li class="breadcrumb-item"><a href="common.examples.html">common.examples package</a></li>
+          <li class="breadcrumb-item"><a href="common.examples.asyncq.html">common.examples.asyncq package</a></li>
+      <li class="breadcrumb-item active">common.examples.asyncq.application module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/modules/common.examples.asyncq.application.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -86,7 +88,7 @@
            <div itemprop="articleBody">
              
   <section id="module-common.examples.asyncq.application">
-<span id="common-examples-asyncq-application-module"></span><h1>common.examples.asyncq.application module<a class="headerlink" href="#module-common.examples.asyncq.application" title="Permalink to this headline"></a></h1>
+<span id="common-examples-asyncq-application-module"></span><h1>common.examples.asyncq.application module<a class="headerlink" href="#module-common.examples.asyncq.application" title="Permalink to this heading"></a></h1>
 <p>The application module</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="common.examples.asyncq.application.makeitem">
@@ -102,20 +104,20 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="common.examples.asyncq.application.produce">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.examples.asyncq.application.</span></span><span class="sig-name descname"><span class="pre">produce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">asyncio.queues.Queue</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#common.examples.asyncq.application.produce" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.examples.asyncq.application.</span></span><span class="sig-name descname"><span class="pre">produce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Queue</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#common.examples.asyncq.application.produce" title="Permalink to this definition"></a></dt>
 <dd><p>Send randomly generated payloads into the <cite>queue</cite> randomly selected times between 1-5</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="common.examples.asyncq.application.consume">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.examples.asyncq.application.</span></span><span class="sig-name descname"><span class="pre">consume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">asyncio.queues.Queue</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#common.examples.asyncq.application.consume" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.examples.asyncq.application.</span></span><span class="sig-name descname"><span class="pre">consume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">queue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Queue</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#common.examples.asyncq.application.consume" title="Permalink to this definition"></a></dt>
 <dd><p>Consumes the</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="common.examples.asyncq.application.Application">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.examples.asyncq.application.</span></span><span class="sig-name descname"><span class="pre">Application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.examples.asyncq.application.Application" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="common.app.app_base.html#common.app.app_base.ApplicationBase" title="common.app.app_base.ApplicationBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">common.app.app_base.ApplicationBase</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="common.app.app_base.html#common.app.app_base.ApplicationBase" title="common.app.app_base.ApplicationBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApplicationBase</span></code></a></p>
 <p>The Application class</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="common.examples.asyncq.application.Application.started">

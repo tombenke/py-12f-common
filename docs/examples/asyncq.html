@@ -14,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -68,9 +70,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="examples.html">Examples</a> &raquo;</li>
-      <li>An application using async queue</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">An application using async queue</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/examples/asyncq.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -81,14 +83,14 @@
            <div itemprop="articleBody">
              
   <section id="an-application-using-async-queue">
-<h1>An application using async queue<a class="headerlink" href="#an-application-using-async-queue" title="Permalink to this headline"></a></h1>
+<h1>An application using async queue<a class="headerlink" href="#an-application-using-async-queue" title="Permalink to this heading"></a></h1>
 <p>This application implements a <code class="docutils literal notranslate"><span class="pre">jobs()</span></code> function,
 in which it uses producer-consumer tasks communicating via async queue with each other.</p>
 <p>The application can be found in the
 <a class="reference external" href="https://github.com/tombenke/py-12f-common/tree/master/examples/asyncq">examples/minimum/ folder</a>
 in the project’s github repository.</p>
 <section id="the-source-code">
-<h2>The source code<a class="headerlink" href="#the-source-code" title="Permalink to this headline"></a></h2>
+<h2>The source code<a class="headerlink" href="#the-source-code" title="Permalink to this heading"></a></h2>
 <p>The configuration is in the <code class="docutils literal notranslate"><span class="pre">config.py</span></code> file:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;The config module of the application&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">common.config</span> <span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">ConfigEntry</span><span class="p">,</span> <span class="n">CliEntry</span>
@@ -272,7 +274,7 @@ in the project’s github repository.</p>
 </div>
 </section>
 <section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
 <p>Start the application with some parameters:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python ./main.py -p <span class="m">2</span> -c <span class="m">3</span>
 <span class="go">2022-02-07 16:06:21.057 | INFO     | common.examples.asyncq.application:start:55 - app starts</span>

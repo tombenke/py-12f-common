@@ -14,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -69,12 +71,12 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../modules.html">Modules</a> &raquo;</li>
-          <li><a href="modules.html">common</a> &raquo;</li>
-          <li><a href="common.html">common package</a> &raquo;</li>
-          <li><a href="common.app.html">common.app package</a> &raquo;</li>
-      <li>common.app.app_base module</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">Modules</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">common</a></li>
+          <li class="breadcrumb-item"><a href="common.html">common package</a></li>
+          <li class="breadcrumb-item"><a href="common.app.html">common.app package</a></li>
+      <li class="breadcrumb-item active">common.app.app_base module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/modules/common.app.app_base.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -85,7 +87,7 @@
            <div itemprop="articleBody">
              
   <section id="module-common.app.app_base">
-<span id="common-app-app-base-module"></span><h1>common.app.app_base module<a class="headerlink" href="#module-common.app.app_base" title="Permalink to this headline"></a></h1>
+<span id="common-app-app-base-module"></span><h1>common.app.app_base module<a class="headerlink" href="#module-common.app.app_base" title="Permalink to this heading"></a></h1>
 <p>The application base class <a class="footnote-reference brackets" href="#id2" id="id1">1</a>.</p>
 <dl class="footnote brackets">
 <dt class="label" id="id2"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id3">2</a>)</span></dt>
@@ -97,7 +99,7 @@ Credits to <a class="reference external" href="https://github.com/wbenny">Petr B
 <dl class="py class">
 <dt class="sig sig-object py" id="common.app.app_base.ApplicationBase">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.app.app_base.</span></span><span class="sig-name descname"><span class="pre">ApplicationBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.ApplicationBase" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>Abstract base class for applications <a class="footnote-reference brackets" href="#id2" id="id3">1</a>.</p>
 <p>It is responsible for</p>
 <ul class="simple">
@@ -154,7 +156,7 @@ internal services, tasks.</p>
 <ol class="arabic simple">
 <li><p>Starts the internal services, defined by the <code class="docutils literal notranslate"><span class="pre">start()</span></code> member function.</p></li>
 <li><p>Executes the <code class="docutils literal notranslate"><span class="pre">jobs()</span></code> member function.</p></li>
-<li><p>Enters the internal event processing execution loop, and wait until either a
+<li><p>Enters the internal event processing execution loop, and wait until either
 an unhandled interruption occur, or the application receives a signal for stopping.</p></li>
 <li><p>Shuts down the internal services according to the implementation of the <code class="docutils literal notranslate"><span class="pre">stop()</span></code> function.</p></li>
 <li><p>Exits.</p></li>
@@ -185,6 +187,42 @@ before the application exits, e.g. closing database connections.</p>
 <dt class="sig sig-object py" id="common.app.app_base.ApplicationBase.wait">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.ApplicationBase.wait" title="Permalink to this definition"></a></dt>
 <dd><p>Wait until the application got stop signal</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="common.app.app_base.HealthCheckMock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">common.app.app_base.</span></span><span class="sig-name descname"><span class="pre">HealthCheckMock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.HealthCheckMock" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Mock class of HealthCheck to swallow the set_state_* calls</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.app_base.HealthCheckMock.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.HealthCheckMock.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.app_base.HealthCheckMock.set_state_warm_up">
+<span class="sig-name descname"><span class="pre">set_state_warm_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.HealthCheckMock.set_state_warm_up" title="Permalink to this definition"></a></dt>
+<dd><p>Mock set_state_warm_up method</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.app_base.HealthCheckMock.set_state_working">
+<span class="sig-name descname"><span class="pre">set_state_working</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.HealthCheckMock.set_state_working" title="Permalink to this definition"></a></dt>
+<dd><p>Mock set_state_working method</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.app_base.HealthCheckMock.set_state_shut_down">
+<span class="sig-name descname"><span class="pre">set_state_shut_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.HealthCheckMock.set_state_shut_down" title="Permalink to this definition"></a></dt>
+<dd><p>Mock set_state_shut_down method</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="common.app.app_base.HealthCheckMock.set_state_no_info">
+<span class="sig-name descname"><span class="pre">set_state_no_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#common.app.app_base.HealthCheckMock.set_state_no_info" title="Permalink to this definition"></a></dt>
+<dd><p>Mock set_state_no_info method</p>
 </dd></dl>
 
 </dd></dl>
