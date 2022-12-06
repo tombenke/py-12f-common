@@ -100,7 +100,7 @@ class HealthCheck:
     Class for running web service to access the 'health' endpoint
     """
 
-    def __init__(self, logger, service_name: str, port=5000):
+    def __init__(self, logger, service_name: str, port=8080):
         self.logger = logger
         self.service_name = service_name
         self.port = port

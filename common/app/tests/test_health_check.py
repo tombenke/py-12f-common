@@ -19,7 +19,7 @@ class TestApplication(ApplicationBase):
         expected_notes = ["No information about the service"]
 
         future = self._loop.run_in_executor(
-            None, requests.get, "http://127.0.0.1:5000/health"
+            None, requests.get, "http://127.0.0.1:8080/health"
         )
         response = await future
 
@@ -35,7 +35,7 @@ class TestApplication(ApplicationBase):
         expected_notes = ["Service is not healthy, it is warming up or shutting down"]
 
         future = self._loop.run_in_executor(
-            None, requests.get, "http://127.0.0.1:5000/health"
+            None, requests.get, "http://127.0.0.1:8080/health"
         )
         response = await future
 
@@ -51,7 +51,7 @@ class TestApplication(ApplicationBase):
         expected_notes = ["Service is running"]
 
         future = self._loop.run_in_executor(
-            None, requests.get, "http://127.0.0.1:5000/health"
+            None, requests.get, "http://127.0.0.1:8080/health"
         )
         response = await future
 
@@ -75,7 +75,7 @@ class TestApplication(ApplicationBase):
         expected_notes = ["Service is not healthy, it is warming up or shutting down"]
 
         future = self._loop.run_in_executor(
-            None, requests.get, "http://127.0.0.1:5000/health"
+            None, requests.get, "http://127.0.0.1:8080/health"
         )
         response = await future
 
@@ -111,7 +111,7 @@ class ApplicationTestCase(unittest.IsolatedAsyncioTestCase):
                 ConfigEntry(
                     name="HEALTH_CHECK_PORT",
                     help_text="Port number for health check web service",
-                    default=5000,
+                    default=8080,
                     cli=CliEntry(
                         short_flag="-p",
                         name="--health-check-port",
