@@ -58,7 +58,7 @@ config_entries = [
     ConfigEntry(
         name="HEALTH_CHECK_PORT",
         help_text="Port number for health check web service",
-        default=8080,
+        default=8008,
         cli=CliEntry(
             short_flag="-p",
             name="--health-check-port",

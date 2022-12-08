@@ -27,7 +27,7 @@ It complies with the Kubernetes health check guidelines. The response is compile
 [Health Check Response Format for HTTP APIs](https://datatracker.ietf.org/doc/html/draft-inadarei-api-health-check-06).
 
 In the configuration, `HEALTH_CHECK` (bool) must be included that enables/disables to run health check web service.  
-`HEALTH_CHECK_PORT` (int) is optional that is the port number for the web service (default is 8080). 
+`HEALTH_CHECK_PORT` (int) is optional that is the port number for the web service (default is 8008). 
 
 The initial state is `NOINFO`. Call the `set_state_warm_up` function just before starting the application, it will set 
 the state to `WARMUP`. Once the application has started working, call the `set_state_working` function to set the state 
