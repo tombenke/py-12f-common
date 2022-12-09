@@ -44,6 +44,27 @@ config_entries = [
             short_flag="-d", name="--dump-config", entry_type=bool, action="store_true"
         ),
     ),
+    ConfigEntry(
+        name="HEALTH_CHECK",
+        help_text="Enable to run health check web service with '/health' endpoint",
+        default=True,
+        cli=CliEntry(
+            short_flag="-hc",
+            name="--health-check",
+            entry_type=bool,
+            action="store_true",
+        ),
+    ),
+    ConfigEntry(
+        name="HEALTH_CHECK_PORT",
+        help_text="Port number for health check web service",
+        default=8008,
+        cli=CliEntry(
+            short_flag="-p",
+            name="--health-check-port",
+            entry_type=int,
+        ),
+    ),
 ]
 
 application_config = Config(APP_NAME, APP_DESCRIPTION, config_entries)

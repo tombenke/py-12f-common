@@ -23,6 +23,8 @@ REQUIRED = [
     "dataclasses",
     "python-dotenv",
     "loguru",
+    "aiohttp",
+    "requests",
 ]
 
 DEV_REQUIREMENTS = [

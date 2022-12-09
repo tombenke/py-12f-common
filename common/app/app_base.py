@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 import asyncio
 from ..logger.logger import init_logger
 from .signals import DelayedKeyboardInterrupt, add_term_signal_handler
-from .app_terminate import terminate
+from .app_terminate import terminate, TerminalException
 
 
 class ApplicationBase(ABC):
@@ -65,6 +65,7 @@ class ApplicationBase(ABC):
         self._wait_task = None
         self.logger = init_logger(config.get("LOG_LEVEL"), config.get("LOG_FORMAT"))
         self.config = config
+        self.health_check = HealthCheckMock(self.logger)
 
     async def jobs(self):
         """
@@ -78,7 +79,7 @@ class ApplicationBase(ABC):
 
         1. Starts the internal services, defined by the ``start()`` member function.
         2. Executes the ``jobs()`` member function.
-        3. Enters the internal event processing execution loop, and wait until either a
+        3. Enters the internal event processing execution loop, and wait until either
            an unhandled interruption occur, or the application receives a signal for stopping.
         4. Shuts down the internal services according to the implementation of the ``stop()`` function.
         5. Exits.
@@ -116,10 +117,21 @@ class ApplicationBase(ABC):
             self._wait()
             self.logger.info("Application.run: exiting wait loop")
 
-        # Any unhandled exception occures, the application will terminate
-        except BaseException:
+        # Any unhandled exception occurs, the application will terminate
+        # Log all exceptions except TerminalException
+        except TerminalException:
             # The stop() is also shielded from termination.
             try:
+                with DelayedKeyboardInterrupt(self.logger):
+                    self._stop()
+            except KeyboardInterrupt:
+                self.logger.info("Application.run: got KeyboardInterrupt during stop")
+        except BaseException as err:
+            # The stop() is also shielded from termination.
+            try:
+                self.logger.opt(exception=True).error(
+                    f"An error occurred, application shuts down: {err}"
+                )
                 with DelayedKeyboardInterrupt(self.logger):
                     self._stop()
             except KeyboardInterrupt:
@@ -149,7 +161,21 @@ class ApplicationBase(ABC):
         This is an abstract member function that the subclass of ApplicationBase class must implement.
         """
 
+    # pylint: disable=import-outside-toplevel
     def _start(self):
+        """
+        Start health check web service if it is required and then run the application
+        """
+        if self.config.get("HEALTH_CHECK"):
+            # The HealthCheck import must be here (after/in the 'with DelayedKeyboardInterrupt(self.logger)' line) so
+            # that KeyboardInterrupt can be handled during start
+            from .health_check import HealthCheck
+
+            self.health_check = HealthCheck(
+                self.logger, self.config.app_name, self.config.get("HEALTH_CHECK_PORT")
+            )
+            self._loop.run_until_complete(self.health_check.run_server())
+
         self._loop.run_until_complete(self.start())
 
     def _stop(self):
@@ -281,7 +307,7 @@ class ApplicationBase(ABC):
             task.cancel()
 
         self._loop.run_until_complete(
-            asyncio.tasks.gather(*to_cancel, loop=self._loop, return_exceptions=True)
+            asyncio.tasks.gather(*to_cancel, return_exceptions=True)
         )
 
         for task in to_cancel:
@@ -296,3 +322,36 @@ class ApplicationBase(ABC):
                         "task": task,
                     }
                 )
+
+
+class HealthCheckMock:
+    """
+    Mock class of HealthCheck to swallow the set_state_* calls
+    """
+
+    def __init__(self, logger):
+        self.logger = logger
+
+    def set_state_warm_up(self):
+        """Mock set_state_warm_up method"""
+        self.logger.warning(
+            "An attempt was made to set service state but health check is not running"
+        )
+
+    def set_state_working(self):
+        """Mock set_state_working method"""
+        self.logger.warning(
+            "An attempt was made to set service state but health check is not running"
+        )
+
+    def set_state_shut_down(self):
+        """Mock set_state_shut_down method"""
+        self.logger.warning(
+            "An attempt was made to set service state but health check is not running"
+        )
+
+    def set_state_no_info(self):
+        """Mock set_state_no_info method"""
+        self.logger.warning(
+            "An attempt was made to set service state but health check is not running"
+        )

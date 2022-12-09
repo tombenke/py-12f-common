@@ -110,7 +110,7 @@ def assert_with_expected(test_case, config, ref):
 
 
 class ConfigTestCase(unittest.TestCase):
-    "The config test cases"
+    """The config test cases"""
 
     def test_config_via_apply_parameters(self) -> None:
         """Test the apply_parameters to config"""

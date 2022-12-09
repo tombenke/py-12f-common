@@ -15,4 +15,5 @@ Submodules
    common.app.app_base
    common.app.app_entrypoint
    common.app.app_terminate
+   common.app.health_check
    common.app.signals

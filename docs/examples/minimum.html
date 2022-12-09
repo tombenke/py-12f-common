@@ -14,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -68,9 +70,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="examples.html">Examples</a> &raquo;</li>
-      <li>A bare-minimum application</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">A bare-minimum application</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/examples/minimum.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -81,15 +83,15 @@
            <div itemprop="articleBody">
              
   <section id="a-bare-minimum-application">
-<h1>A bare-minimum application<a class="headerlink" href="#a-bare-minimum-application" title="Permalink to this headline"></a></h1>
+<h1>A bare-minimum application<a class="headerlink" href="#a-bare-minimum-application" title="Permalink to this heading"></a></h1>
 <p>This example introduces a bare-minimum application made, using the py-12f-common package.</p>
 <p>The application can be found in the
 <a class="reference external" href="https://github.com/tombenke/py-12f-common/tree/master/examples/minimum">examples/minimum/ folder</a>
 in the project’s github repository.</p>
 <section id="the-source-code">
-<h2>The source code<a class="headerlink" href="#the-source-code" title="Permalink to this headline"></a></h2>
+<h2>The source code<a class="headerlink" href="#the-source-code" title="Permalink to this heading"></a></h2>
 <p>It is a single-file application. The source code is structured on the following way:</p>
-<p>The firs part contain the package imports,
+<p>The first part contains the package imports,
 and the definition of the configuration object of the application:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">common.app</span> <span class="kn">import</span> <span class="n">ApplicationBase</span><span class="p">,</span> <span class="n">application_entrypoint</span>
 <span class="kn">from</span> <span class="nn">common.config</span> <span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">ConfigEntry</span><span class="p">,</span> <span class="n">CliEntry</span>
@@ -159,7 +161,7 @@ of the <code class="docutils literal notranslate"><span class="pre">common.app</
 </div>
 </section>
 <section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
 <p>Start the application, to get help:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">m$ python main.py  --help</span>
 <span class="go">usage: minimum [-h] [-l {critical,error,warning,success,info,debug,trace}] [-f {text,json}] [-d]</span>

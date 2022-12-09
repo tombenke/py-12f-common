@@ -13,7 +13,7 @@ The source code
 
 It is a single-file application. The source code is structured on the following way:
 
-The firs part contain the package imports,
+The first part contains the package imports,
 and the definition of the configuration object of the application:
 
 .. code-block:: python

@@ -14,7 +14,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -69,11 +71,11 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../modules.html">Modules</a> &raquo;</li>
-          <li><a href="modules.html">common</a> &raquo;</li>
-          <li><a href="common.html">common package</a> &raquo;</li>
-      <li>common.app package</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules.html">Modules</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">common</a></li>
+          <li class="breadcrumb-item"><a href="common.html">common package</a></li>
+      <li class="breadcrumb-item active">common.app package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/modules/common.app.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -84,19 +86,96 @@
            <div itemprop="articleBody">
              
   <section id="module-common.app">
-<span id="common-app-package"></span><h1>common.app package<a class="headerlink" href="#module-common.app" title="Permalink to this headline"></a></h1>
+<span id="common-app-package"></span><h1>common.app package<a class="headerlink" href="#module-common.app" title="Permalink to this heading"></a></h1>
 <p>This module holds a base class for generic, asynchronous applications with config, logging and graceful shut-down.</p>
 <p>It contains the <code class="docutils literal notranslate"><span class="pre">ApplicationBase</span></code> base class for application
 accompanied with the <code class="docutils literal notranslate"><span class="pre">terminate()</span></code> helper function that shuts the application down on a graceful way.</p>
 <p>The module also provides the <code class="docutils literal notranslate"><span class="pre">application_entrypoint</span></code> which implements a generic entrypoint to an application.
 It helps to significantly shorten the boilerplate, which every application needs to have.</p>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="common.app.app_base.html">common.app.app_base module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="common.app.app_entrypoint.html">common.app.app_entrypoint module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="common.app.app_terminate.html">common.app.app_terminate module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common.app.app_base.html">common.app.app_base module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.ApplicationBase"><code class="docutils literal notranslate"><span class="pre">ApplicationBase</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.ApplicationBase.__init__"><code class="docutils literal notranslate"><span class="pre">ApplicationBase.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.ApplicationBase.jobs"><code class="docutils literal notranslate"><span class="pre">ApplicationBase.jobs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.ApplicationBase.run"><code class="docutils literal notranslate"><span class="pre">ApplicationBase.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.ApplicationBase.start"><code class="docutils literal notranslate"><span class="pre">ApplicationBase.start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.ApplicationBase.stop"><code class="docutils literal notranslate"><span class="pre">ApplicationBase.stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.ApplicationBase.wait"><code class="docutils literal notranslate"><span class="pre">ApplicationBase.wait()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.HealthCheckMock"><code class="docutils literal notranslate"><span class="pre">HealthCheckMock</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.HealthCheckMock.__init__"><code class="docutils literal notranslate"><span class="pre">HealthCheckMock.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.HealthCheckMock.set_state_warm_up"><code class="docutils literal notranslate"><span class="pre">HealthCheckMock.set_state_warm_up()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.HealthCheckMock.set_state_working"><code class="docutils literal notranslate"><span class="pre">HealthCheckMock.set_state_working()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.HealthCheckMock.set_state_shut_down"><code class="docutils literal notranslate"><span class="pre">HealthCheckMock.set_state_shut_down()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.app_base.html#common.app.app_base.HealthCheckMock.set_state_no_info"><code class="docutils literal notranslate"><span class="pre">HealthCheckMock.set_state_no_info()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common.app.app_entrypoint.html">common.app.app_entrypoint module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common.app.app_entrypoint.html#common.app.app_entrypoint.application_entrypoint"><code class="docutils literal notranslate"><span class="pre">application_entrypoint()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common.app.app_terminate.html">common.app.app_terminate module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common.app.app_terminate.html#common.app.app_terminate.TerminalException"><code class="docutils literal notranslate"><span class="pre">TerminalException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.app.app_terminate.html#common.app.app_terminate.terminate"><code class="docutils literal notranslate"><span class="pre">terminate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common.app.health_check.html">common.app.health_check module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.State"><code class="docutils literal notranslate"><span class="pre">State</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.State.WARMUP"><code class="docutils literal notranslate"><span class="pre">State.WARMUP</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.State.WORK"><code class="docutils literal notranslate"><span class="pre">State.WORK</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.State.SHUTDOWN"><code class="docutils literal notranslate"><span class="pre">State.SHUTDOWN</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.State.NOINFO"><code class="docutils literal notranslate"><span class="pre">State.NOINFO</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Status"><code class="docutils literal notranslate"><span class="pre">Status</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Status.PASS"><code class="docutils literal notranslate"><span class="pre">Status.PASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Status.FAIL"><code class="docutils literal notranslate"><span class="pre">Status.FAIL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Status.WARN"><code class="docutils literal notranslate"><span class="pre">Status.WARN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Response"><code class="docutils literal notranslate"><span class="pre">Response</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Response.status"><code class="docutils literal notranslate"><span class="pre">Response.status</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Response.notes"><code class="docutils literal notranslate"><span class="pre">Response.notes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Response.__init__"><code class="docutils literal notranslate"><span class="pre">Response.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Response.create_response"><code class="docutils literal notranslate"><span class="pre">Response.create_response</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Pass"><code class="docutils literal notranslate"><span class="pre">Pass</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Pass.status"><code class="docutils literal notranslate"><span class="pre">Pass.status</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Pass.status_code"><code class="docutils literal notranslate"><span class="pre">Pass.status_code</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Pass.notes"><code class="docutils literal notranslate"><span class="pre">Pass.notes</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Fail"><code class="docutils literal notranslate"><span class="pre">Fail</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Fail.status"><code class="docutils literal notranslate"><span class="pre">Fail.status</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Fail.status_code"><code class="docutils literal notranslate"><span class="pre">Fail.status_code</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Fail.notes"><code class="docutils literal notranslate"><span class="pre">Fail.notes</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Warn"><code class="docutils literal notranslate"><span class="pre">Warn</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Warn.status"><code class="docutils literal notranslate"><span class="pre">Warn.status</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Warn.status_code"><code class="docutils literal notranslate"><span class="pre">Warn.status_code</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.Warn.notes"><code class="docutils literal notranslate"><span class="pre">Warn.notes</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.HealthCheck"><code class="docutils literal notranslate"><span class="pre">HealthCheck</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.HealthCheck.__init__"><code class="docutils literal notranslate"><span class="pre">HealthCheck.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.HealthCheck.health"><code class="docutils literal notranslate"><span class="pre">HealthCheck.health()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.HealthCheck.run_server"><code class="docutils literal notranslate"><span class="pre">HealthCheck.run_server()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.HealthCheck.set_state_warm_up"><code class="docutils literal notranslate"><span class="pre">HealthCheck.set_state_warm_up()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.HealthCheck.set_state_working"><code class="docutils literal notranslate"><span class="pre">HealthCheck.set_state_working()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.HealthCheck.set_state_shut_down"><code class="docutils literal notranslate"><span class="pre">HealthCheck.set_state_shut_down()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="common.app.health_check.html#common.app.health_check.HealthCheck.set_state_no_info"><code class="docutils literal notranslate"><span class="pre">HealthCheck.set_state_no_info()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="common.app.signals.html">common.app.signals module</a></li>
 </ul>
 </div>

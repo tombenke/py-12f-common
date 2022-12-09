@@ -56,14 +56,23 @@ class Application(ApplicationBase):
         Starts the application.
         """
         self.logger.info("app starts")
+
+        self.logger.debug("Set service state to WARMUP")
+        self.health_check.set_state_warm_up()
+
         self.started = time.perf_counter()
+
+        self.logger.debug("Set service state to WORK")
+        self.health_check.set_state_working()
 
     async def stop(self):
         """
         Shuts down the application
-
         """
         self.logger.info("app shuts down")
+
+        self.logger.debug("Set service state to SHUTDOWN")
+        self.health_check.set_state_shut_down()
 
         elapsed = time.perf_counter() - self.started
         self.logger.info(f"Program completed in {elapsed:0.5f} seconds.")
