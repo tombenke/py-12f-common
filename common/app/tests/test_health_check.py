@@ -6,7 +6,7 @@ from common.config import Config, ConfigEntry, CliEntry
 from .exceptions import HealthCheckTestError
 
 
-def compare_exp_act(expected_status_code, expected_notes, response):
+def check_response(expected_status_code, expected_notes, response):
     """
     Compare expected and actual status codes and notes from response. Raise a HealthCheckTestError if one of them is
     not equal.
@@ -39,7 +39,7 @@ class TestApplication(ApplicationBase):
         )
         response = await future
 
-        compare_exp_act(expected_status_code, expected_notes, response)
+        check_response(expected_status_code, expected_notes, response)
         self.logger.info("1. test case passed")
 
         # WARMUP state
@@ -54,7 +54,7 @@ class TestApplication(ApplicationBase):
         )
         response = await future
 
-        compare_exp_act(expected_status_code, expected_notes, response)
+        check_response(expected_status_code, expected_notes, response)
         self.logger.info("2. test case passed")
 
         # WORK state
@@ -69,7 +69,7 @@ class TestApplication(ApplicationBase):
         )
         response = await future
 
-        compare_exp_act(expected_status_code, expected_notes, response)
+        check_response(expected_status_code, expected_notes, response)
         self.logger.info("3. test case passed")
 
     async def stop(self):
@@ -92,8 +92,7 @@ class TestApplication(ApplicationBase):
         )
         response = await future
 
-        assert expected_status_code == response.status_code
-        assert expected_notes == response.json()["notes"]
+        check_response(expected_status_code, expected_notes, response)
         self.logger.info("4. test case passed")
 
         terminate()
