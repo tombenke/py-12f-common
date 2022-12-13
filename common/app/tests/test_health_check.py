@@ -31,7 +31,7 @@ class TestApplication(ApplicationBase):
         self.logger.info("Set service state to WARMUP")
         self.health_check.set_state_warm_up()
 
-        expected_status_code = 203
+        expected_status_code = 202
         expected_notes = ["Service is not healthy, it is warming up or shutting down"]
 
         future = self._loop.run_in_executor(
@@ -71,7 +71,7 @@ class TestApplication(ApplicationBase):
         self.logger.info("Set service state to SHUTDOWN")
         self.health_check.set_state_shut_down()
 
-        expected_status_code = 203
+        expected_status_code = 202
         expected_notes = ["Service is not healthy, it is warming up or shutting down"]
 
         future = self._loop.run_in_executor(
@@ -109,11 +109,21 @@ class ApplicationTestCase(unittest.IsolatedAsyncioTestCase):
                     ),
                 ),
                 ConfigEntry(
+                    name="HEALTH_CHECK_HOST",
+                    help_text="Host for health check web service",
+                    default="127.0.0.1",
+                    cli=CliEntry(
+                        short_flag="-hh",
+                        name="--health-check-host",
+                        entry_type=str,
+                    ),
+                ),
+                ConfigEntry(
                     name="HEALTH_CHECK_PORT",
                     help_text="Port number for health check web service",
                     default=8008,
                     cli=CliEntry(
-                        short_flag="-p",
+                        short_flag="-hp",
                         name="--health-check-port",
                         entry_type=int,
                     ),
