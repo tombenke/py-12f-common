@@ -100,9 +100,10 @@ class HealthCheck:
     Class for running web service to access the 'health' endpoint
     """
 
-    def __init__(self, logger, service_name: str, port=8008):
+    def __init__(self, logger, service_name: str, host="127.0.0.1", port=8008):
         self.logger = logger
         self.service_name = service_name
+        self.host = host
         self.port = port
         self.service_state = State.NOINFO
 
@@ -128,10 +129,10 @@ class HealthCheck:
         """
         runner = web.AppRunner(self.app)
         await runner.setup()
-        site = web.TCPSite(runner, "localhost", port=self.port)
+        site = web.TCPSite(runner, host=self.host, port=self.port)
         await site.start()
 
-        self.logger.info(f"Health check serving on http://127.0.0.1:{self.port}/health")
+        self.logger.info(f"Health check serving on {self.host}:{self.port}/health")
 
     def set_state_warm_up(self):
         """

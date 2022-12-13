@@ -172,7 +172,10 @@ class ApplicationBase(ABC):
             from .health_check import HealthCheck
 
             self.health_check = HealthCheck(
-                self.logger, self.config.app_name, self.config.get("HEALTH_CHECK_PORT")
+                self.logger,
+                self.config.app_name,
+                self.config.get("HEALTH_CHECK_HOST"),
+                self.config.get("HEALTH_CHECK_PORT"),
             )
             self._loop.run_until_complete(self.health_check.run_server())
 
