@@ -3,6 +3,22 @@ import unittest
 import requests
 from common.app import ApplicationBase, application_entrypoint, terminate
 from common.config import Config, ConfigEntry, CliEntry
+from .exceptions import HealthCheckTestError
+
+
+def compare_exp_act(expected_status_code, expected_notes, response):
+    """
+    Compare expected and actual status codes and notes from response. Raise a HealthCheckTestError if one of them is
+    not equal.
+    """
+    if expected_status_code != response.status_code:
+        raise HealthCheckTestError(
+            f"Expected and actual status codes are not equal: {expected_status_code} and {response.status_code}"
+        )
+    if expected_notes != response.json()["notes"]:
+        raise HealthCheckTestError(
+            f"Expected and actual notes are not equal: {expected_notes} and {response.json()['notes']}"
+        )
 
 
 class TestApplication(ApplicationBase):
@@ -23,8 +39,7 @@ class TestApplication(ApplicationBase):
         )
         response = await future
 
-        assert expected_status_code == response.status_code
-        assert expected_notes == response.json()["notes"]
+        compare_exp_act(expected_status_code, expected_notes, response)
         self.logger.info("1. test case passed")
 
         # WARMUP state
@@ -39,8 +54,7 @@ class TestApplication(ApplicationBase):
         )
         response = await future
 
-        assert expected_status_code == response.status_code
-        assert expected_notes == response.json()["notes"]
+        compare_exp_act(expected_status_code, expected_notes, response)
         self.logger.info("2. test case passed")
 
         # WORK state
@@ -55,8 +69,7 @@ class TestApplication(ApplicationBase):
         )
         response = await future
 
-        assert expected_status_code == response.status_code
-        assert expected_notes == response.json()["notes"]
+        compare_exp_act(expected_status_code, expected_notes, response)
         self.logger.info("3. test case passed")
 
     async def stop(self):

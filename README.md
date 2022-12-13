@@ -20,14 +20,15 @@ You can use pip to install the library from the
 For further information read [the documentation](https://tombenke.github.io/py-12f-common/).
 
 ### Health check
-Health check is a web service running on localhost, on the configured port and can be called with HTTP GET request on 
+Health check is a web service running on the configured host:port and can be called with HTTP GET request on 
 `/health` endpoint. It is responsible for providing information about the application state.
 
 It complies with the Kubernetes health check guidelines. The response is compiled according to 
 [Health Check Response Format for HTTP APIs](https://datatracker.ietf.org/doc/html/draft-inadarei-api-health-check-06).
 
 In the configuration, `HEALTH_CHECK` (bool) must be included that enables/disables to run health check web service.  
-`HEALTH_CHECK_PORT` (int) is optional that is the port number for the web service (default is 8008). 
+`HEALTH_CHECK_HOST` (string) and `HEALTH_CHECK_PORT` (int) are optional these are the host and port numbers for the web 
+service (defaults are '127.0.0.1' and 8008). 
 
 The initial state is `NOINFO`. Call the `set_state_warm_up` function just before starting the application, it will set 
 the state to `WARMUP`. Once the application has started working, call the `set_state_working` function to set the state 
