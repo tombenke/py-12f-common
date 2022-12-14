@@ -56,11 +56,21 @@ config_entries = [
         ),
     ),
     ConfigEntry(
+        name="HEALTH_CHECK_HOST",
+        help_text="Host for health check web service",
+        default="127.0.0.1",
+        cli=CliEntry(
+            short_flag="-hh",
+            name="--health-check-host",
+            entry_type=str,
+        ),
+    ),
+    ConfigEntry(
         name="HEALTH_CHECK_PORT",
         help_text="Port number for health check web service",
         default=8008,
         cli=CliEntry(
-            short_flag="-p",
+            short_flag="-hp",
             name="--health-check-port",
             entry_type=int,
         ),

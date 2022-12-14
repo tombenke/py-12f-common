@@ -10,6 +10,7 @@ import asyncio
 from ..logger.logger import init_logger
 from .signals import DelayedKeyboardInterrupt, add_term_signal_handler
 from .app_terminate import terminate, TerminalException
+from .tests.exceptions import HealthCheckTestError
 
 
 class ApplicationBase(ABC):
@@ -117,6 +118,9 @@ class ApplicationBase(ABC):
             self._wait()
             self.logger.info("Application.run: exiting wait loop")
 
+        # Raise error when test_health_check fails
+        except HealthCheckTestError as err:
+            raise HealthCheckTestError(err) from err
         # Any unhandled exception occurs, the application will terminate
         # Log all exceptions except TerminalException
         except TerminalException:
@@ -172,7 +176,10 @@ class ApplicationBase(ABC):
             from .health_check import HealthCheck
 
             self.health_check = HealthCheck(
-                self.logger, self.config.app_name, self.config.get("HEALTH_CHECK_PORT")
+                self.logger,
+                self.config.app_name,
+                self.config.get("HEALTH_CHECK_HOST"),
+                self.config.get("HEALTH_CHECK_PORT"),
             )
             self._loop.run_until_complete(self.health_check.run_server())
 
