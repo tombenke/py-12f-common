@@ -147,11 +147,18 @@ class ConfigEntry:
     of the corresponding config parameter, using the built-in default value, then applying the environment variable.
     """
 
-    def __init__(self, name=None, help_text="", default=None, cli=None):
+    masked: bool
+    """
+    If it's True, then the every time the configs are dumped, this entry will
+    be masked with '****'.
+    """
+
+    def __init__(self, name=None, help_text="", default=None, cli=None, masked=False):
         self.name = name
         self.help_text = help_text
         self.default = default
         self.cli = cli
+        self.masked = masked
 
     def __iter__(self):
         """
@@ -173,7 +180,7 @@ class Config:
     from env variables as well as from CLI parameters.
     """
 
-    def __init__(self, app_name, app_description, config_entries):
+    def __init__(self, app_name, app_description, config_entries: list[ConfigEntry]):
         """
         Constructor for the application config.
 
@@ -345,7 +352,9 @@ class Config:
             name = config_entry.name
             value = self.__dict__[name]
             value_type = type(value)
-            if value_type == str:
+            if config_entry.masked:
+                print(f"  {name}: ****")
+            elif value_type == str:
                 print(f'  {name}: "{value}" {value_type}')
             else:
                 print(f"  {name}: {value} {value_type}")

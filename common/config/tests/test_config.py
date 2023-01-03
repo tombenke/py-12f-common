@@ -79,6 +79,7 @@ config_entries = [
         help_text="A float number",
         default="0.",
         cli=CliEntry(short_flag="-r", name="--float", entry_type=float),
+        masked=True,
     ),
     ConfigEntry(
         name="JSON_STRING_ARRAY",
